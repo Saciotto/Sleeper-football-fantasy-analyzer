@@ -3,8 +3,8 @@ from types import SimpleNamespace
 from pandas import DataFrame
 
 from .league import League
-from .user import User
 from .player import Player
+from .user import User
 from ..exceptions import RosterNotFoundException
 
 

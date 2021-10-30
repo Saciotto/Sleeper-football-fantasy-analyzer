@@ -2,9 +2,9 @@ from argparse import ArgumentParser
 from types import SimpleNamespace
 
 from . import __version__
+from .initializer import initialize
 from .models.league import League
 from .models.team import Team
-from .initializer import initialize
 
 
 def _leagues(context, _):

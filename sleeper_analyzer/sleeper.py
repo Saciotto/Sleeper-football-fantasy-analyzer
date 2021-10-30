@@ -3,8 +3,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from . import DATA_FOLDER
-from .sleeper_api import SleeperAPI
 from .exceptions import UserNotFoundException, LeagueNotFoundException
+from .sleeper_api import SleeperAPI
 
 
 class Sleeper:
