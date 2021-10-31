@@ -82,7 +82,7 @@ class Team:
         return total
 
     def _best_projected_lineup(self, week):
-        projections = self.scoring(stats_mode='projections')
+        projections = self.scoring_dataframe(stats_mode='projections')
         sorted_projections = projections.sort_values(by=f'week_{week}', ascending=False)
         sorted_projections['role'] = ''
         positions = ['RB', 'WR', 'TE', 'QB', 'LB', 'DB', 'DL', 'FLEX', 'SUPER_FLEX', 'IDP_FLEX', 'DEF', 'K']

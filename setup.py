@@ -15,7 +15,7 @@ def find_version(*file_paths):
 
 
 setup(
-    name='EngagePackager',
+    name='sleeper',
     version=find_version('sleeper_analyzer', '__init__.py'),
     packages=find_packages(include=['sleeper_analyzer', 'sleeper_analyzer.*']),
     url='https://github.com/Saciotto/Sleeper-football-fantasy-analyzer',

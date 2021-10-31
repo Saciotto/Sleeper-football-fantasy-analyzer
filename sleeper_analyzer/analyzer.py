@@ -46,6 +46,14 @@ def _best_projected_lineup(context, args):
     print(team.best_projected_lineup())
 
 
+def _set_user(context, args):
+    context.set_config('username', args.user)
+
+
+def _set_league(context, args):
+    context.set_config('default_league', args.league)
+
+
 def main(context):
     parser = ArgumentParser(prog='sleeper')
     subparsers = parser.add_subparsers(title='commands', metavar='command', help='description')
@@ -75,6 +83,14 @@ def main(context):
     sub_parser.add_argument("-u", "--user", nargs="?", default=None)
     sub_parser.add_argument("-l", "--league", nargs="?", default=None)
     sub_parser.set_defaults(func=_best_projected_lineup)
+
+    sub_parser = subparsers.add_parser('set_user', help='Set the default user')
+    sub_parser.add_argument("user")
+    sub_parser.set_defaults(func=_set_user)
+
+    sub_parser = subparsers.add_parser('set_league', help='Set the default user')
+    sub_parser.add_argument("league")
+    sub_parser.set_defaults(func=_set_league)
 
     parser.add_argument('--version', action='version', version=__version__)
     args = parser.parse_args()
