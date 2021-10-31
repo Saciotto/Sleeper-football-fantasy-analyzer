@@ -32,3 +32,5 @@ class League(dict):
 
     def __str__(self):
         return self.name
+
+    __repr__ = __str__

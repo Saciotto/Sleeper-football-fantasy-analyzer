@@ -27,13 +27,17 @@ class Team:
     def roster_positions(self):
         return self.league.roster_positions
 
+    def scoring_dataframe(self, stats_mode='statistics'):
+        data, columns = self.scoring(stats_mode)
+        return DataFrame(data, columns=columns)
+
     def scoring(self, stats_mode='statistics'):
         first_week = 1
         last_week = self._context.current_week
         columns = ['name', 'age', 'position']
         columns += ['week_{}'.format(week) for week in range(first_week, last_week + 1)]
         data = self._scoring_generator(stats_mode, first_week, last_week)
-        return DataFrame(data, columns=columns)
+        return data, columns
 
     def best_projected_lineup(self, week=None):
         if week is None:
@@ -44,12 +48,6 @@ class Team:
         lineup = lineup.rename(columns={f'week_{week}': 'projection'})
         return lineup.reset_index(drop=True)
 
-    def _scoring_generator(self, stats_mode, first_week, last_week):
-        for player in self.players:
-            data = [player.name, player.age, ','.join(player.fantasy_positions)]
-            scoring = self.player_scoring_per_week(player, stats_mode, first_week, last_week)
-            yield data + scoring
-
     def player_scoring_per_week(self, player, stats_mode='statistics', first_week=1, last_week=None):
         if last_week is None:
             last_week = self._context.current_week
@@ -57,6 +55,12 @@ class Team:
 
     def __str__(self):
         return 'Team(User: {}, League: {})'.format(self.user, self.league)
+
+    def _scoring_generator(self, stats_mode, first_week, last_week):
+        for player in self.players:
+            data = [player.name, player.age, ','.join(player.fantasy_positions)]
+            scoring = self.player_scoring_per_week(player, stats_mode, first_week, last_week)
+            yield data + scoring
 
     def _get_roster(self):
         for roster in self.league.rosters:

@@ -7,6 +7,13 @@ from .models.league import League
 from .models.team import Team
 
 
+def _add_default_options(context, args):
+    if 'user' in args and args.user is None:
+        args.user = context.username
+    if 'league' in args and args.league is None:
+        args.league = context.default_league
+
+
 def _leagues(context, _):
     leagues = [league['name'] for league in context.sleeper.user_leagues]
     print(leagues)
@@ -31,7 +38,7 @@ def _update(context, _):
 
 def _team_statistics(context, args):
     team = Team(context, args.user, args.league)
-    print(team.scoring())
+    print(team.scoring_dataframe())
 
 
 def _best_projected_lineup(context, args):
@@ -44,33 +51,35 @@ def main(context):
     subparsers = parser.add_subparsers(title='commands', metavar='command', help='description')
 
     sub_parser = subparsers.add_parser('leagues', help='List user leagues')
+    sub_parser.add_argument("-u", "--user", nargs="?", default=None)
     sub_parser.set_defaults(func=_leagues)
 
     sub_parser = subparsers.add_parser('users', help='List of users for a league')
-    sub_parser.add_argument("league")
+    sub_parser.add_argument("-l", "--league", nargs="?", default=None)
     sub_parser.set_defaults(func=_users)
 
     sub_parser = subparsers.add_parser('players', help='List of players')
-    sub_parser.add_argument("user")
-    sub_parser.add_argument("league")
+    sub_parser.add_argument("-u", "--user", nargs="?", default=None)
+    sub_parser.add_argument("-l", "--league", nargs="?", default=None)
     sub_parser.set_defaults(func=_players)
 
     sub_parser = subparsers.add_parser('update', help='Update statistics')
     sub_parser.set_defaults(func=_update)
 
     sub_parser = subparsers.add_parser('team', help='Show team statistics')
-    sub_parser.add_argument("user")
-    sub_parser.add_argument("league")
+    sub_parser.add_argument("-u", "--user", nargs="?", default=None)
+    sub_parser.add_argument("-l", "--league", nargs="?", default=None)
     sub_parser.set_defaults(func=_team_statistics)
 
     sub_parser = subparsers.add_parser('lineup', help='Show best projected lineup')
-    sub_parser.add_argument("user")
-    sub_parser.add_argument("league")
+    sub_parser.add_argument("-u", "--user", nargs="?", default=None)
+    sub_parser.add_argument("-l", "--league", nargs="?", default=None)
     sub_parser.set_defaults(func=_best_projected_lineup)
 
     parser.add_argument('--version', action='version', version=__version__)
     args = parser.parse_args()
     if 'func' in args:
+        _add_default_options(context, args)
         args.func(context, args)
     else:
         parser.print_usage()
