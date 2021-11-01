@@ -1,5 +1,6 @@
-from ..models.league import League
 from pandas import DataFrame
+
+from ..models.league import League
 
 
 def league_command(context, args):

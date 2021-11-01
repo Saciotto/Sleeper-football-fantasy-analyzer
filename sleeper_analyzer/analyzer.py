@@ -2,10 +2,10 @@ from argparse import ArgumentParser
 from types import SimpleNamespace
 
 from . import __version__
+from .cli.league_command import league_parser
 from .initializer import initialize
 from .models.league import League
 from .models.team import Team
-from .cli.league_command import league_parser
 
 
 def _add_default_options(context, args):
