@@ -1,6 +1,6 @@
-from .analyzer import main
+from .cli.initializer import uninitialized_main
+from .cli.main import main
 from .context import Context
-from .initializer import uninitialized_main
 
 
 def console_entry():

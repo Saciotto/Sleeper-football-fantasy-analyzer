@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 
-from . import __version__
-from .sleeper import Sleeper
+from .. import __version__
+from ..sleeper import Sleeper
 
 
 def initialize(context, args):
