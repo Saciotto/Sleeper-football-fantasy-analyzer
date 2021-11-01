@@ -49,6 +49,16 @@ class Sleeper:
                 self._user_leagues = json.load(fp)
         return self._user_leagues
 
+    @property
+    def users(self):
+        added_users = set()
+        for league in self.user_leagues:
+            for user in self.get_league_users(league):
+                user_id = user['user_id']
+                if user_id not in added_users:
+                    added_users.add(user_id)
+                    yield user
+
     def get_league(self, name):
         for league_path in self.leagues_path.iterdir():
             league_info_path = league_path / 'league_info.json'
