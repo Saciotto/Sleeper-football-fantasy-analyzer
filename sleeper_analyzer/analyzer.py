@@ -5,6 +5,7 @@ from . import __version__
 from .initializer import initialize
 from .models.league import League
 from .models.team import Team
+from .cli.league_command import league_parser
 
 
 def _add_default_options(context, args):
@@ -91,6 +92,10 @@ def main(context):
     sub_parser = subparsers.add_parser('set_league', help='Set the default user')
     sub_parser.add_argument("league")
     sub_parser.set_defaults(func=_set_league)
+
+    sub_parser = subparsers.add_parser('league', help='League commands')
+    sub_parser = sub_parser.add_subparsers(title='league', metavar='league', help='description')
+    league_parser(sub_parser)
 
     parser.add_argument('--version', action='version', version=__version__)
     args = parser.parse_args()
