@@ -1,11 +1,11 @@
 from argparse import ArgumentParser
 from types import SimpleNamespace
 
+from sleeper_analyzer import __version__
+from sleeper_analyzer.models.league import League
+from sleeper_analyzer.models.team import Team
 from .initializer import initialize
 from .league_command import league_parser
-from .. import __version__
-from ..models.league import League
-from ..models.team import Team
 
 
 def _add_default_options(context, args):

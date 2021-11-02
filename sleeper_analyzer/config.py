@@ -1,11 +1,11 @@
 import json
-from pathlib import Path
 
-from . import __version__, DATA_FOLDER
+from . import __version__
+from .sleeper import SLEEPER_HOME
 
 
 class BaseConfigDict(dict):
-    path = Path(f'{DATA_FOLDER}/config.json')
+    path = SLEEPER_HOME / 'config.json'
 
     def ensure_directory(self):
         self.path.parent.mkdir(parents=True, exist_ok=True)

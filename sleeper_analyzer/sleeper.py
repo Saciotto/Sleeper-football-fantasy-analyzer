@@ -2,13 +2,14 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from . import DATA_FOLDER
 from .exceptions import UserNotFoundException, LeagueNotFoundException
 from .sleeper_api import SleeperAPI
 
+SLEEPER_HOME = Path.home() / 'Sleeper'
+
 
 class Sleeper:
-    sleeper_path = Path(f'{DATA_FOLDER}/sleeper')
+    sleeper_path = SLEEPER_HOME / 'data'
     nfl_state_path = sleeper_path / 'nfl.json'
     players_info_path = sleeper_path / 'players.json'
     user_info_path = sleeper_path / 'user.json'

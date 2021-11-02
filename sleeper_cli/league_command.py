@@ -1,6 +1,6 @@
 from pandas import DataFrame
 
-from ..models.league import League
+from sleeper_analyzer.models.league import League
 
 
 def _players_scoring(context, args):
