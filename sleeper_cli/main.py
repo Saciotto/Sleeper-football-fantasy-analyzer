@@ -4,7 +4,7 @@ from types import SimpleNamespace
 from sleeper_analyzer import __version__
 from sleeper_analyzer.models.league import League
 from sleeper_analyzer.models.team import Team
-from .initializer import initialize
+from .initializer import update_command
 from .league_command import league_parser
 
 
@@ -34,7 +34,7 @@ def _players(context, args):
 def _update(context, _):
     args = SimpleNamespace()
     args.username = context.username
-    initialize(context, args)
+    update_command(context, args)
 
 
 def _team_statistics(context, args):
