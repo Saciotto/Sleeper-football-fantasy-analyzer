@@ -1,0 +1,25 @@
+{
+    "files": [
+        "setup.py",
+        "sleeper_analyzer/__init__.py",
+        "sleeper_analyzer/config.py",
+        "sleeper_analyzer/context.py",
+        "sleeper_analyzer/exceptions.py",
+        "sleeper_analyzer/sleeper.py",
+        "sleeper_analyzer/sleeper_api.py",
+        "sleeper_analyzer/models/__init__.py",
+        "sleeper_analyzer/models/league.py",
+        "sleeper_analyzer/models/player.py",
+        "sleeper_analyzer/models/team.py",
+        "sleeper_analyzer/models/user.py",
+        "sleeper_gui/__init__.py",
+        "sleeper_gui/__main__.py",
+        "sleeper_gui/helpers.py",
+        "sleeper_gui/assets.qrc",
+        "sleeper_gui/components.qrc",
+        "sleeper_gui/views.qrc",
+        "sleeper_gui/controllers/__init__.py",
+        "sleeper_gui/controllers/master_controller.py",
+        "sleeper_gui/controllers/navigation_controller.py"
+    ]
+}
