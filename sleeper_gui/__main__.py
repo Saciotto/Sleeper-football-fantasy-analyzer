@@ -5,7 +5,10 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 
 from sleeper_gui.helpers import get_qrc_root, enable_qml_logs, compile_resources
-from sleeper_gui.controllers.master_controller import MasterController, NavigationController
+from sleeper_gui.controllers.master_controller import MasterController
+from sleeper_gui.controllers.navigation_controller import NavigationController
+from sleeper_gui.controllers.login_controller import LoginController
+from sleeper_gui.controllers.team_controller import TeamController
 
 compile_resources()
 
@@ -34,6 +37,8 @@ def main():
 
     qmlRegisterType(MasterController, 'Sleeper', 1, 0, 'MasterController')
     qmlRegisterType(NavigationController, 'Sleeper', 1, 0, 'NavigationController')
+    qmlRegisterType(LoginController, 'Sleeper', 1, 0, 'LoginController')
+    qmlRegisterType(TeamController, 'Sleeper', 1, 0, 'TeamController')
 
     controller = MasterController()
     engine.rootContext().setContextProperty("masterController", controller)

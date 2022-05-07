@@ -7,25 +7,25 @@ Item {
 
     readonly property string dashboardView: "DashboardView"
     readonly property string bestLineupView: "BestLineupView"
-    readonly property string loginView: "LoginView"
+    readonly property string teamView: "LoginView"
 
     Connections {
         target: masterController.navigationController
-        function onGoBestLineupView() {
-            selectedView = bestLineupView;
-            return contentFrame.replace("qrc:/views/BestLineupView.qml");
-        }
         function onGoDashboardView() {
             selectedView = dashboardView;
-            if (masterController.navigationController.isLogged) {
+            if (masterController.loginController.logged) {
                 return contentFrame.replace("qrc:/views/DashboardView.qml");
             } else {
                 return contentFrame.replace("qrc:/views/LoginView.qml");
             }
         }
         function onGoTeamView() {
-            selectedView = loginView;
+            selectedView = teamView;
             return contentFrame.replace("qrc:/views/TeamView.qml");
+        }
+        function onGoBestLineupView() {
+            selectedView = bestLineupView;
+            return contentFrame.replace("qrc:/views/BestLineupView.qml");
         }
     }
 
@@ -34,7 +34,6 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: Style.navigationBarColor
-
         Column {
             width: parent.width
             NavigationButton {
@@ -48,8 +47,8 @@ Item {
             NavigationButton {
                 iconCharacter: "\ue7ef"
                 description: qsTr("Team")
-                selected: selectedView === loginView
-                enabled: masterController.navigationController.isLogged
+                selected: selectedView === teamView
+                enabled: masterController.loginController.logged
                 onNavigationButtonClicked: {
                     masterController.navigationController.goTeamView();
                 }
@@ -58,7 +57,7 @@ Item {
                 iconCharacter: "\ue838"
                 description: qsTr("Best Lineup")
                 selected: selectedView === bestLineupView
-                enabled: masterController.navigationController.isLogged
+                enabled: masterController.loginController.logged
                 onNavigationButtonClicked: {
                     masterController.navigationController.goBestLineupView();
                 }

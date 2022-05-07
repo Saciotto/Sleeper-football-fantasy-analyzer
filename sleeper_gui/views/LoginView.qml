@@ -5,48 +5,79 @@ import QtQuick.Layouts
 import assets 1.0
 
 Item {
+
+    Connections {
+        target: masterController.loginController
+        function onLoggedChanged() {
+            masterController.navigationController.goDashboardView()
+        }
+        function onLoginFailed() {
+            busyIndicator.visible = false;
+            button.visible = true;
+        }
+    }
     Rectangle {
-        anchors.fill: parent
+        anchors.fill:parent
         color: Style.backgroundColor
 
-        ColumnLayout {
-            anchors.fill: parent
-            spacing: 20
-
-            Item {
-                Layout.fillHeight: true
+        TextField {
+            id: username
+            width: parent.width * 0.8
+            anchors {
+                left: parent.left
+                right: parent.right
+                centerIn: parent
             }
-
-            Label {
-                text: qsTr("Login")
-                font.pixelSize: 50
-                Layout.alignment: Qt.AlignCenter
+            horizontalAlignment: Label.AlignHCenter
+            placeholderText: qsTr("Username")
+            font.pixelSize: 16
+        }
+        Label {
+            text: qsTr("Enter your Sleeper username")
+            width: parent.width * 0.8
+            anchors {
+                bottom: username.top
+                horizontalCenter: parent.horizontalCenter
+                bottomMargin: 20
             }
-
-            TextField {
-                placeholderText: qsTr("Username")
-                horizontalAlignment: TextInput.AlignHCenter
-                Layout.alignment: Qt.AlignCenter
-                Layout.fillWidth: true
-                Layout.maximumWidth: 0.75 * parent.width
+            horizontalAlignment: Label.AlignHCenter
+            wrapMode: Label.WordWrap
+            font.pixelSize: 32
+            Layout.alignment: Qt.AlignCenter
+        }
+        Item {
+            height: button.height
+            width: button.width
+            anchors {
+                top: username.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 20
             }
-
             Button {
                 id: button
+                text: qsTr("Continue")
                 background: Rectangle {
-                    implicitWidth: 100
-                    implicitHeight: 40
+                    implicitWidth: 120
+                    implicitHeight: 50
                     color: button.down ? "#00ceb8" : "#00ceb8"
                     border.color: "#26282a"
                     border.width: 1
                     radius: height / 2
                 }
-                text: qsTr("Continue")
-                Layout.alignment: Qt.AlignCenter
+                font.pixelSize: 16
+                anchors.centerIn: parent
+                onClicked: {
+                    button.visible = false;
+                    busyIndicator.visible = true;
+                    masterController.loginController.login(username.text)
+                }
             }
-
-            Item {
-                Layout.fillHeight: true
+            BusyIndicator {
+                id: busyIndicator
+                height: button.height
+                anchors.centerIn: parent
+                visible: false
+                running: true
             }
         }
     }

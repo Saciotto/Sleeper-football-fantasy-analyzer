@@ -33,7 +33,7 @@ Window {
             right: parent.right
             left: navigationBar.right
         }
-        initialItem: "qrc:/views/LoginView.qml"
+        initialItem: "qrc:/views/EmptyView.qml"
         clip: true
     }
 }

@@ -6,10 +6,5 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: Style.backgroundColor
-
-        Text {
-            anchors.centerIn: parent
-            text: masterController.teamController.players
-        }
     }
 }
