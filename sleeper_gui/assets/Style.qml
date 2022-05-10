@@ -22,28 +22,15 @@ Item {
     readonly property real navigationButtonTextPixSize: 12
     readonly property real navigationButtonSpacing: 4
 
-    // Visualization Area
-    readonly property color visualizationAreaBackground: secondaryBackgroundColor
-
-    // Editor highlights
-    readonly property color keywordHighlightColor: "#45c6d5"
-    readonly property color colorHighlightColor: "#ff6aad"
-    readonly property color widthHighlightColor: "#d69545"
-    readonly property color heightHighlightColor: "#66a334"
-    readonly property color horizontalPaddingHighlightColor: "#d69545"
-    readonly property color verticalPaddingHighlightColor: "#66a334"
-    readonly property color fontHighlightColor: "#4ec9b0"
-    readonly property color colorIdHighlightColor: "#4ec9b0"
-    readonly property color actionKeyHighlightColor: "#4ec9b0"
-    readonly property color imageHighlightColor: "#ff8080"
-    readonly property color errorHighlightColor: "#ff0303"
-
-    // Error message
-    readonly property color errorMessageBackgroundColor: "#f44336"
-    readonly property color errorMessageTextColor: "#ffebee"
-    readonly property real errorMessageTextPixSize: 20
-    readonly property real errorMessageLabelRadius: 8
-    readonly property real errorMessagePadding: 4
+    // Player
+    readonly property color qbBackgroundColor: "#ff2a6d"
+    readonly property color wrBackgroundColor: "#58a7ff"
+    readonly property color rbBackgroundColor: "#00ceb8"
+    readonly property color teBackgroundColor: "#ffae58"
+    readonly property color dlBackgroundColor: "#ff795a"
+    readonly property color lbBackgroundColor: "#6d7df5"
+    readonly property color dbBackgroundColor: "#ff7cb6"
+    readonly property color genericBackgroundColor: "#2c3749"
 
     // Fonts
     property alias fontAwesome: fontAwesomeLoader.name
