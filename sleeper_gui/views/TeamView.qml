@@ -25,7 +25,7 @@ Item {
                 left: parent.left
                 right: parent.horizontalCenter
                 top: parent.top
-                margins: 4
+                margins: 8
             }
             Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.selectedLeague)
         }
@@ -38,7 +38,7 @@ Item {
                 left: leagueBox.right
                 right: parent.right
                 top: parent.top
-                margins: 4
+                margins: 8
             }
             Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.selectedUser)
         }
@@ -46,11 +46,11 @@ Item {
         PlayerList {
             anchors {
                 left: parent.left
+                right: parent.horizontalCenter
                 top: leagueBox.bottom
                 bottom: parent.bottom
                 margins: 8
             }
-            width: 0.5 * parent.width
             clip: true
             players: masterController.teamController.players
         }

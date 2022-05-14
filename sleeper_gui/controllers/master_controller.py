@@ -16,16 +16,14 @@ class MasterController(QObject):
         self.navigation_controller = NavigationController(self)
         self.team_controller = TeamController(self)
 
-    def get_login_controller(self):
+    @Property(LoginController, constant=True)
+    def loginController(self):
         return self.login_controller
 
-    def get_navigation_controller(self):
+    @Property(NavigationController, constant=True)
+    def navigationController(self):
         return self.navigation_controller
 
-    def get_team_controller(self):
+    @Property(TeamController, constant=True)
+    def teamController(self):
         return self.team_controller
-
-    loginController = Property(LoginController, get_login_controller, constant=True)
-    navigationController = Property(NavigationController, get_navigation_controller, constant=True)
-    teamController = Property(TeamController, get_team_controller, constant=True)
-

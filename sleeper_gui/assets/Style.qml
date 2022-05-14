@@ -22,6 +22,16 @@ Item {
     readonly property real navigationButtonTextPixSize: 12
     readonly property real navigationButtonSpacing: 4
 
+    // Player list
+    readonly property color listBackground: "#293142"
+    readonly property color listItemSelectedBackground: "#4a5464"
+    readonly property real listMargin: 8
+    readonly property real listSpacing: 4
+    readonly property real listRadius: 8
+    readonly property real listItemHeight: 36
+    readonly property real listItemRadius: 5
+    readonly property real listItemInternalMargin: 4
+
     // Player
     readonly property color qbBackgroundColor: "#ff2a6d"
     readonly property color wrBackgroundColor: "#58a7ff"
@@ -31,6 +41,9 @@ Item {
     readonly property color lbBackgroundColor: "#6d7df5"
     readonly property color dbBackgroundColor: "#ff7cb6"
     readonly property color genericBackgroundColor: "#2c3749"
+    readonly property real playerPositionBoxWidth : 45
+    readonly property real playerPositionBoxHeight : 30
+    readonly property real playerTextFontSize: 16
 
     // Fonts
     property alias fontAwesome: fontAwesomeLoader.name

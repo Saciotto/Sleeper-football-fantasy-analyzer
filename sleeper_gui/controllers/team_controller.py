@@ -4,6 +4,7 @@ from sleeper_analyzer.models.team import Team
 from sleeper_analyzer.models.league import League
 
 
+# noinspection PyUnresolvedReferences
 class TeamController(QObject):
     selectedLeagueChanged = Signal()
     selectedUserChanged = Signal()
@@ -11,8 +12,7 @@ class TeamController(QObject):
 
     def __init__(self, parent, username=None, league=None):
         QObject.__init__(self, parent)
-        self._master = parent
-        self._context = self._master.context
+        self._context = parent.context
         league_name = league if league is not None else self._context.default_league
         selected_league = League(self._context, league_name)
         self._selected_league = selected_league.name
@@ -39,8 +39,12 @@ class TeamController(QObject):
 
     @Property(str, notify=playersChanged)
     def players(self):
-        team = Team(self._master.context, self._selected_user, self._selected_league)
-        return json.dumps(team.players)
+        positions_order = ['QB', 'RB', "WR", 'TE', 'DL', 'LB', 'DB', 'LAST']
+        order = {key: i for i, key in enumerate(positions_order)}
+        team = Team(self._context, self._selected_user, self._selected_league)
+        players = team.players
+        players.sort(key=lambda p: (order.get(p.fantasy_positions[0], order['LAST']), p.fantasy_positions[0], p.name))
+        return json.dumps(players)
 
     @selectedUser.setter
     def selectedUser(self, username):
@@ -52,7 +56,7 @@ class TeamController(QObject):
     def selectedLeague(self, league_name):
         if self._selected_league != league_name:
             self._selected_league = league_name
-            league = League(self._master.context, self._selected_league)
+            league = League(self._context, self._selected_league)
             self._league_users = [user['display_name'] for user in league.users]
             if self._selected_user not in self._league_users:
                 self.selectedUser = self._league_users[0]

@@ -8,17 +8,15 @@ ItemDelegate {
     signal itemClicked
 
     id: root
-    width: parent != null ? parent.width : 0
-    implicitHeight: playerPosition.height + 4
-
     Rectangle {
         id: playerPosition
         anchors {
             left: parent.left
+            leftMargin: Style.listItemInternalMargin
             verticalCenter: parent.verticalCenter
         }
-        width: 45
-        height: 30
+        width: Style.playerPositionBoxWidth
+        height: Style.playerPositionBoxHeight
         color: {
             switch (player.fantasy_positions[0]) {
             case 'QB':
@@ -38,14 +36,14 @@ ItemDelegate {
             }
             return Style.genericBackgroundColor;
         }
-        radius: 5
+        radius: Style.listItemRadius
         Label {
             anchors.fill: parent
             text: player.fantasy_positions[0]
             horizontalAlignment: Label.AlignHCenter
             verticalAlignment: Label.AlignVCenter
             font {
-                pixelSize: 16
+                pixelSize: Style.playerTextFontSize
                 bold: true
             }
         }
@@ -58,7 +56,7 @@ ItemDelegate {
         }
         text: player.full_name
         font {
-            pixelSize: 16
+            pixelSize: Style.playerTextFontSize
         }
     }
 }
