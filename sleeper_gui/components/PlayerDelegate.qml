@@ -3,19 +3,22 @@ import QtQuick.Controls
 
 import assets 1.0
 
-Item {
+ItemDelegate {
     property var player
+    signal itemClicked
 
     id: root
+    width: parent != null ? parent.width : 0
     implicitHeight: playerPosition.height + 4
+
     Rectangle {
         id: playerPosition
         anchors {
             left: parent.left
             verticalCenter: parent.verticalCenter
         }
-        width: 30
-        height: 20
+        width: 45
+        height: 30
         color: {
             switch (player.fantasy_positions[0]) {
             case 'QB':
@@ -40,14 +43,22 @@ Item {
             anchors.fill: parent
             text: player.fantasy_positions[0]
             horizontalAlignment: Label.AlignHCenter
+            verticalAlignment: Label.AlignVCenter
+            font {
+                pixelSize: 16
+                bold: true
+            }
         }
     }
     Label {
         anchors {
             left: playerPosition.right
-            leftMargin: 4
+            leftMargin: 8
             verticalCenter: parent.verticalCenter
         }
         text: player.full_name
+        font {
+            pixelSize: 16
+        }
     }
 }

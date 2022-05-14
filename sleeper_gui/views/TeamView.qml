@@ -8,8 +8,8 @@ Item {
 
     Connections {
         target: masterController.teamController
-        function onUsersChanged() {
-            usersBox.currentIndex = usersBox.indexOfValue(masterController.teamController.username);
+        function onLeagueUsersChanged() {
+            usersBox.currentIndex = usersBox.indexOfValue(masterController.teamController.selectedUser);
         }
     }
 
@@ -20,27 +20,27 @@ Item {
         ComboBox {
             id: leagueBox
             model: masterController.teamController.leagues
-            onActivated: masterController.teamController.league = currentValue
+            onActivated: masterController.teamController.selectedLeague = currentValue
             anchors {
                 left: parent.left
                 right: parent.horizontalCenter
                 top: parent.top
                 margins: 4
             }
-            Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.league)
+            Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.selectedLeague)
         }
 
         ComboBox {
             id: usersBox
-            model: masterController.teamController.users
-            onActivated: masterController.teamController.username = currentValue
+            model: masterController.teamController.leagueUsers
+            onActivated: masterController.teamController.selectedUser = currentValue
             anchors {
                 left: leagueBox.right
                 right: parent.right
                 top: parent.top
                 margins: 4
             }
-            Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.username)
+            Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.selectedUser)
         }
 
         PlayerList {
@@ -54,6 +54,5 @@ Item {
             clip: true
             players: masterController.teamController.players
         }
-
     }
 }
