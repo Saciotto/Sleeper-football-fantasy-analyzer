@@ -6,6 +6,7 @@ import assets 1.0
 Item {
     id: root
     property string players
+    property alias currentItem: list.currentItem
 
     Rectangle {
         anchors.fill:parent

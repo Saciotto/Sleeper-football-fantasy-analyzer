@@ -7,7 +7,7 @@ from sleeper_analyzer.sleeper import Sleeper
 def download_updates(context, args):
     sleeper = Sleeper()
     sleeper.download_statistics(args.username)
-    context.username = args.username
+    context.update(args.username)
     print('Done!')
 
 

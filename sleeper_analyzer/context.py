@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from .config import Config
 from .sleeper import Sleeper
 
@@ -16,6 +18,11 @@ class Context:
     @property
     def username(self):
         return self.get_config('username')
+
+    @property
+    def last_update(self):
+        iso = self.get_config('last_update', '2020-01-01T00:00:00')
+        return datetime.fromisoformat(iso)
 
     @property
     def default_league(self):
@@ -42,9 +49,9 @@ class Context:
     def current_season(self):
         return int(self.sleeper.nfl_state['season'])
 
-    @username.setter
-    def username(self, name):
-        self.set_config('username', name)
+    def update(self, username):
+        self.set_config('username', username)
+        self.set_config('last_update', datetime.now().isoformat())
 
     def get_config(self, key, default=None):
         if self.config is None:

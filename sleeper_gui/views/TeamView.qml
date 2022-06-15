@@ -44,6 +44,7 @@ Item {
         }
 
         PlayerList {
+            id: playerList
             anchors {
                 left: parent.left
                 right: parent.horizontalCenter
@@ -54,5 +55,21 @@ Item {
             clip: true
             players: masterController.teamController.players
         }
+
+        ScrollView {
+            anchors {
+                left: parent.horizontalCenter
+                right: parent.right
+                top: leagueBox.bottom
+                bottom: parent.bottom
+                margins: 8
+            }
+            Label {
+                anchors.fill: parent
+                text: JSON.stringify(JSON.parse(masterController.teamController.playerStatistics(playerList.currentItem.player.player_id)),null,2)
+            }
+        }
+
+
     }
 }

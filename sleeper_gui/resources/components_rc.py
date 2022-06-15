@@ -89,7 +89,7 @@ xW\x93\xe9\x07|\xe9RVD:H\xe0\x96\xb0r\
 y\xf4V\x1e,\xde/\xc6y\xe0\xa6\x03\xab\xc7\xc3\x85\
 V\xf8\xc3\xe9\xff2d8\x87/\xb2\xa5\x9b\x98\xf6\xfb\
 \x03\xbf\xa8\xa1N\
-\x00\x00\x05S\
+\x00\x00\x05\x85\
 i\
 mport QtQuick\x0d\x0ai\
 mport QtQuick.Co\
@@ -98,85 +98,88 @@ ntrols\x0d\x0a\x0d\x0aimport\
 tem {\x0d\x0a    id: r\
 oot\x0d\x0a    propert\
 y string players\
-\x0d\x0a\x0d\x0a    Rectangl\
-e {\x0d\x0a        anc\
-hors.fill:parent\
-\x0d\x0a        color:\
- Style.listBackg\
-round\x0d\x0a        r\
-adius: Style.lis\
-tRadius\x0d\x0a\x0d\x0a     \
-   Component {\x0d\x0a\
-            id: \
-highlight\x0d\x0a     \
-       Rectangle\
- {\x0d\x0a            \
-    width: list.\
-width\x0d\x0a         \
-       height: S\
-tyle.listItemHei\
-ght\x0d\x0a           \
-     color: Styl\
-e.listItemSelect\
-edBackground\x0d\x0a  \
-              ra\
-dius: Style.list\
-ItemRadius\x0d\x0a    \
-            y: l\
-ist.currentItem \
-? list.currentIt\
-em.y : 0\x0d\x0a      \
-      }\x0d\x0a       \
- }\x0d\x0a\x0d\x0a        Sc\
-rollView {\x0d\x0a    \
-        anchors.\
-fill: parent\x0d\x0a  \
-          Scroll\
-Bar.horizontal.p\
-olicy: ScrollBar\
-.AlwaysOff\x0d\x0a    \
-        ListView\
- {\x0d\x0a            \
-    id: list\x0d\x0a  \
-              an\
-chors.fill: pare\
-nt\x0d\x0a            \
-    anchors.marg\
-ins: Style.listM\
-argin\x0d\x0a         \
-       spacing: \
-Style.listSpacin\
-g\x0d\x0a             \
-   clip: true\x0d\x0a \
-               m\
-odel: JSON.parse\
-(root.players)\x0d\x0a\
+\x0d\x0a    property a\
+lias currentItem\
+: list.currentIt\
+em\x0d\x0a\x0d\x0a    Rectan\
+gle {\x0d\x0a        a\
+nchors.fill:pare\
+nt\x0d\x0a        colo\
+r: Style.listBac\
+kground\x0d\x0a       \
+ radius: Style.l\
+istRadius\x0d\x0a\x0d\x0a   \
+     Component {\
+\x0d\x0a            id\
+: highlight\x0d\x0a   \
+         Rectang\
+le {\x0d\x0a          \
+      width: lis\
+t.width\x0d\x0a       \
+         height:\
+ Style.listItemH\
+eight\x0d\x0a         \
+       color: St\
+yle.listItemSele\
+ctedBackground\x0d\x0a\
                 \
-delegate: Player\
-Delegate {\x0d\x0a    \
+radius: Style.li\
+stItemRadius\x0d\x0a  \
+              y:\
+ list.currentIte\
+m ? list.current\
+Item.y : 0\x0d\x0a    \
+        }\x0d\x0a     \
+   }\x0d\x0a\x0d\x0a        \
+ScrollView {\x0d\x0a  \
+          anchor\
+s.fill: parent\x0d\x0a\
+            Scro\
+llBar.horizontal\
+.policy: ScrollB\
+ar.AlwaysOff\x0d\x0a  \
+          ListVi\
+ew {\x0d\x0a          \
+      id: list\x0d\x0a\
                 \
-width: list.widt\
-h\x0d\x0a             \
-       height: S\
-tyle.listItemHei\
-ght\x0d\x0a           \
-         player:\
- modelData\x0d\x0a    \
+anchors.fill: pa\
+rent\x0d\x0a          \
+      anchors.ma\
+rgins: Style.lis\
+tMargin\x0d\x0a       \
+         spacing\
+: Style.listSpac\
+ing\x0d\x0a           \
+     clip: true\x0d\
+\x0a               \
+ model: JSON.par\
+se(root.players)\
+\x0d\x0a              \
+  delegate: Play\
+erDelegate {\x0d\x0a  \
                 \
-onClicked: list.\
-currentIndex = i\
-ndex\x0d\x0a          \
-      }\x0d\x0a       \
-         focus: \
-true\x0d\x0a          \
-      highlight:\
- highlight\x0d\x0a    \
-            high\
-lightFollowsCurr\
-entItem: false\x0d\x0a\
-            }\x0d\x0a \
-       }\x0d\x0a    }\x0d\
-\x0a}\
+  width: list.wi\
+dth\x0d\x0a           \
+         height:\
+ Style.listItemH\
+eight\x0d\x0a         \
+           playe\
+r: modelData\x0d\x0a  \
+                \
+  onClicked: lis\
+t.currentIndex =\
+ index\x0d\x0a        \
+        }\x0d\x0a     \
+           focus\
+: true\x0d\x0a        \
+        highligh\
+t: highlight\x0d\x0a  \
+              hi\
+ghlightFollowsCu\
+rrentItem: false\
+\x0d\x0a            }\x0d\
+\x0a        }\x0d\x0a    \
+}\x0d\x0a}\
 \x00\x00\x02\x95\
 \x00\
 \x00\x08\xa8x\x9c\xa5UQk\xdb0\x10~\x0f\xf4?\
@@ -263,10 +266,10 @@ qt_resource_struct = b"\
 \x00\x00\x00V\x00\x01\x00\x00\x00\x01\x00\x00\x02\xa6\
 \x00\x00\x01\x80\xaf\xff\xa0T\
 \x00\x00\x00~\x00\x00\x00\x00\x00\x01\x00\x00\x04\xc0\
-\x00\x00\x01\x80\xc3}\xc0j\
+\x00\x00\x01\x80\xc3\xab0\x8d\
 \x00\x00\x00\x1a\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\
 \x00\x00\x01\x80\xaf\xff\xa0W\
-\x00\x00\x00\xa0\x00\x01\x00\x00\x00\x01\x00\x00\x0a\x17\
+\x00\x00\x00\xa0\x00\x01\x00\x00\x00\x01\x00\x00\x0aI\
 \x00\x00\x01\x80\xaf\xff\xa0U\
 "
 

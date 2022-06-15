@@ -9,6 +9,7 @@ from sleeper_gui.controllers.master_controller import MasterController
 from sleeper_gui.controllers.navigation_controller import NavigationController
 from sleeper_gui.controllers.login_controller import LoginController
 from sleeper_gui.controllers.team_controller import TeamController
+from sleeper_gui.controllers.dashboard_controller import DashboardController
 
 compile_resources()
 
@@ -39,6 +40,7 @@ def main():
     qmlRegisterType(NavigationController, 'Sleeper', 1, 0, 'NavigationController')
     qmlRegisterType(LoginController, 'Sleeper', 1, 0, 'LoginController')
     qmlRegisterType(TeamController, 'Sleeper', 1, 0, 'TeamController')
+    qmlRegisterType(DashboardController, 'Sleeper', 1, 0, 'DashboardController')
 
     controller = MasterController()
     engine.rootContext().setContextProperty("masterController", controller)

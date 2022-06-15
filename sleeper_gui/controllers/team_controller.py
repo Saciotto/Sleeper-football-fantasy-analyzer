@@ -1,10 +1,14 @@
 import json
+import matplotlib.pyplot as plt
+import numpy as np
+
 from PySide6.QtCore import QObject, Signal, Property, Slot
 from sleeper_analyzer.models.team import Team
 from sleeper_analyzer.models.league import League
+from sleeper_analyzer.models.player import Player
 
 
-# noinspection PyUnresolvedReferences
+# noinspection PyUnresolvedReferences,PyTypeChecker
 class TeamController(QObject):
     selectedLeagueChanged = Signal()
     selectedUserChanged = Signal()
@@ -61,3 +65,8 @@ class TeamController(QObject):
             if self._selected_user not in self._league_users:
                 self.selectedUser = self._league_users[0]
             self.selectedLeagueChanged.emit()
+
+    @Slot(str, result=str)
+    def playerStatistics(self, player_id):
+        player = Player(self._context, player_id)
+        return json.dumps(player.statistics)

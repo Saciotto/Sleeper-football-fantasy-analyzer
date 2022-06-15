@@ -28,7 +28,7 @@ class LoginController(QObject):
             return
         try:
             self._sleeper.download_statistics(username)
-            self._context.username = username
+            self._context.update(username)
             self._logged = True
             self.loggedChanged.emit()
         except Exception:
