@@ -3,6 +3,7 @@ import QtQuick
 import assets 1.0
 
 Item {
+    id: navbar
     property string selectedView: ""
 
     readonly property string dashboardView: "DashboardView"
@@ -12,7 +13,7 @@ Item {
     Connections {
         target: masterController.navigationController
         function onGoDashboardView() {
-            selectedView = dashboardView;
+            selectedView = navbar.dashboardView;
             if (masterController.loginController.logged) {
                 return contentFrame.replace("qrc:/views/DashboardView.qml");
             } else {
@@ -20,11 +21,11 @@ Item {
             }
         }
         function onGoTeamView() {
-            selectedView = teamView;
+            selectedView = navbar.teamView;
             return contentFrame.replace("qrc:/views/TeamView.qml");
         }
         function onGoBestLineupView() {
-            selectedView = bestLineupView;
+            selectedView = navbar.bestLineupView;
             return contentFrame.replace("qrc:/views/BestLineupView.qml");
         }
     }
@@ -39,7 +40,7 @@ Item {
             NavigationButton {
                 iconCharacter: "\ue871"
                 description: qsTr("Dashboard")
-                selected: selectedView === dashboardView
+                selected: navbar.selectedView === navbar.dashboardView
                 onNavigationButtonClicked: {
                     masterController.navigationController.goDashboardView();
                 }
@@ -47,7 +48,7 @@ Item {
             NavigationButton {
                 iconCharacter: "\ue7ef"
                 description: qsTr("Team")
-                selected: selectedView === teamView
+                selected: navbar.selectedView === navbar.teamView
                 enabled: masterController.loginController.logged
                 onNavigationButtonClicked: {
                     masterController.navigationController.goTeamView();
@@ -56,7 +57,7 @@ Item {
             NavigationButton {
                 iconCharacter: "\ue838"
                 description: qsTr("Best Lineup")
-                selected: selectedView === bestLineupView
+                selected: navbar.selectedView === navbar.bestLineupView
                 enabled: masterController.loginController.logged
                 onNavigationButtonClicked: {
                     masterController.navigationController.goBestLineupView();
