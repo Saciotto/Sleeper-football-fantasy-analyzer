@@ -4,7 +4,7 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 
 from sleeper_gui.helpers import get_qml_root, enable_qml_logs, get_view
-from sleeper_gui.controllers.master_controller import ApplicationController
+from sleeper_gui.controllers.application_controller import ApplicationController
 from sleeper_gui.controllers.navigation_controller import NavigationController
 from sleeper_gui.controllers.login_controller import LoginController
 from sleeper_gui.controllers.team_controller import TeamController
