@@ -21,6 +21,11 @@ def enable_qml_logs():
     qInstallMessageHandler(qt_message_handler)
 
 
+def get_qml_root():
+    qml_root = Path(__file__).parent
+    return qml_root.as_uri()
+
+
 def get_qrc_root():
     qrc_root = Path(__file__).parent
     return qrc_root.as_uri()

@@ -2,6 +2,8 @@ import QtQuick
 
 import assets 1.0
 
+import QtQuick.Controls.Material
+
 Item {
     id: navbar
     property string selectedView: ""
@@ -15,18 +17,18 @@ Item {
         function onGoDashboardView() {
             selectedView = navbar.dashboardView;
             if (masterController.loginController.logged) {
-                return contentFrame.replace("qrc:/views/DashboardView.qml");
+                return contentFrame.replace("../views/DashboardView.qml");
             } else {
-                return contentFrame.replace("qrc:/views/LoginView.qml");
+                return contentFrame.replace("../views/LoginView.qml");
             }
         }
         function onGoTeamView() {
             selectedView = navbar.teamView;
-            return contentFrame.replace("qrc:/views/TeamView.qml");
+            return contentFrame.replace("../views/TeamView.qml");
         }
         function onGoBestLineupView() {
             selectedView = navbar.bestLineupView;
-            return contentFrame.replace("qrc:/views/BestLineupView.qml");
+            return contentFrame.replace("../views/BestLineupView.qml");
         }
     }
 

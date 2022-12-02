@@ -52,16 +52,16 @@ Item {
 
     FontLoader {
         id: fontAwesomeLoader
-        source: "qrc:/assets/fontawesome.ttf"
+        source: "fontawesome.ttf"
     }
 
     FontLoader {
         id: fontMaterialIconsLoader
-        source: "qrc:/assets/material-icons.ttf"
+        source: "material-icons.ttf"
     }
 
     FontLoader {
         id: fontMonospaceLoader
-        source: "qrc:/assets/DejaVuSansMono.ttf"
+        source: "DejaVuSansMono.ttf"
     }
 }
