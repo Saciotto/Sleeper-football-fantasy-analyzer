@@ -1,16 +1,16 @@
 import os
 from pathlib import Path
-from PySide6.QtCore import QUrl, QtInfoMsg, QtWarningMsg, QtCriticalMsg, QtFatalMsg, qInstallMessageHandler
+from PySide6.QtCore import QUrl, QtMsgType, qInstallMessageHandler
 
 
 def qt_message_handler(mode, context, message):
-    if mode == QtInfoMsg:
+    if mode == QtMsgType.QtInfoMsg:
         mode = 'Info'
-    elif mode == QtWarningMsg:
+    elif mode == QtMsgType.QtWarningMsg:
         mode = 'Warning'
-    elif mode == QtCriticalMsg:
+    elif mode == QtMsgType.QtCriticalMsg:
         mode = 'critical'
-    elif mode == QtFatalMsg:
+    elif mode == QtMsgType.QtFatalMsg:
         mode = 'fatal'
     else:
         mode = 'Debug'
@@ -34,6 +34,6 @@ def get_view(name):
 
 def compile_resources():
     gui_folder = Path(__file__).parent.absolute()
-    os.system(f'pyside6-rcc.exe "{gui_folder}/assets.qrc" -o "{gui_folder}/resources/assets_rc.py"')
-    os.system(f'pyside6-rcc.exe "{gui_folder}/components.qrc" -o "{gui_folder}/resources/components_rc.py"')
-    os.system(f'pyside6-rcc.exe "{gui_folder}/views.qrc" -o "{gui_folder}/resources/views_rc.py"')
+    os.system(f'pyside6-rcc "{gui_folder}/assets.qrc" -o "{gui_folder}/resources/assets_rc.py"')
+    os.system(f'pyside6-rcc "{gui_folder}/components.qrc" -o "{gui_folder}/resources/components_rc.py"')
+    os.system(f'pyside6-rcc "{gui_folder}/views.qrc" -o "{gui_folder}/resources/views_rc.py"')

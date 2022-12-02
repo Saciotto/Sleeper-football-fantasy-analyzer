@@ -61,5 +61,3 @@ class Context:
     def set_config(self, key, value):
         self.config[key] = value
         self.config.save()
-
-

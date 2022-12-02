@@ -69,7 +69,5 @@ Item {
                 text: JSON.stringify(JSON.parse(masterController.teamController.playerStatistics(playerList.currentItem.player.player_id)),null,2)
             }
         }
-
-
     }
 }

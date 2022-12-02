@@ -1,6 +1,4 @@
 import json
-import matplotlib.pyplot as plt
-import numpy as np
 
 from PySide6.QtCore import QObject, Signal, Property, Slot
 from sleeper_analyzer.models.team import Team

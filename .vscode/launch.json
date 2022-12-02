@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Sleeper Analyzer GUI",
+            "type": "python",
+            "request": "launch",
+            "module": "sleeper_gui",
+            "console": "integratedTerminal"
+        }
+    ]
+}

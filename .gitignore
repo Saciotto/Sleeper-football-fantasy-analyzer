@@ -1,6 +1,14 @@
-/.idea
+# Python cache and virtual env
+__pycache__
+/.mypy_cache
 /venv
+
+# Pycharm files
+/.idea
+
+# Installation files
 /build
 /sleeper.egg-info
+
+# Storage files
 .sleeper
-__pycache__

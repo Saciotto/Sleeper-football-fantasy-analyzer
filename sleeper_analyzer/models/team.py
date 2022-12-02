@@ -145,5 +145,3 @@ class Team:
                 player.role = 'IDP_FLEX'
                 manager.starters.append(player)
                 return
-
-
