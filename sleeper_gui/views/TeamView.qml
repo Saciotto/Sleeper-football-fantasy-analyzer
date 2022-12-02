@@ -7,9 +7,9 @@ import components 1.0
 Item {
 
     Connections {
-        target: masterController.teamController
+        target: app.teamController
         function onLeagueUsersChanged() {
-            usersBox.currentIndex = usersBox.indexOfValue(masterController.teamController.selectedUser);
+            usersBox.currentIndex = usersBox.indexOfValue(app.teamController.selectedUser);
         }
     }
 
@@ -19,28 +19,28 @@ Item {
 
         ComboBox {
             id: leagueBox
-            model: masterController.teamController.leagues
-            onActivated: masterController.teamController.selectedLeague = currentValue
+            model: app.teamController.leagues
+            onActivated: app.teamController.selectedLeague = currentValue
             anchors {
                 left: parent.left
                 right: parent.horizontalCenter
                 top: parent.top
                 margins: 8
             }
-            Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.selectedLeague)
+            Component.onCompleted: currentIndex = indexOfValue(app.teamController.selectedLeague)
         }
 
         ComboBox {
             id: usersBox
-            model: masterController.teamController.leagueUsers
-            onActivated: masterController.teamController.selectedUser = currentValue
+            model: app.teamController.leagueUsers
+            onActivated: app.teamController.selectedUser = currentValue
             anchors {
                 left: leagueBox.right
                 right: parent.right
                 top: parent.top
                 margins: 8
             }
-            Component.onCompleted: currentIndex = indexOfValue(masterController.teamController.selectedUser)
+            Component.onCompleted: currentIndex = indexOfValue(app.teamController.selectedUser)
         }
 
         PlayerList {
@@ -53,7 +53,7 @@ Item {
                 margins: 8
             }
             clip: true
-            players: masterController.teamController.players
+            players: app.teamController.players
         }
 
         ScrollView {
@@ -66,7 +66,7 @@ Item {
             }
             Label {
                 anchors.fill: parent
-                text: JSON.stringify(JSON.parse(masterController.teamController.playerStatistics(playerList.currentItem.player.player_id)),null,2)
+                text: JSON.stringify(JSON.parse(app.teamController.playerStatistics(playerList.currentItem.player.player_id)),null,2)
             }
         }
     }

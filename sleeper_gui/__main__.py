@@ -4,7 +4,7 @@ from PySide6.QtGui import QGuiApplication
 from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 
 from sleeper_gui.helpers import get_qml_root, enable_qml_logs, get_view
-from sleeper_gui.controllers.master_controller import MasterController
+from sleeper_gui.controllers.master_controller import ApplicationController
 from sleeper_gui.controllers.navigation_controller import NavigationController
 from sleeper_gui.controllers.login_controller import LoginController
 from sleeper_gui.controllers.team_controller import TeamController
@@ -24,14 +24,14 @@ def main():
     qml_root = get_qml_root()
     engine.addImportPath(qml_root)
 
-    qmlRegisterType(MasterController, 'Sleeper', 1, 0, 'MasterController')
+    qmlRegisterType(ApplicationController, 'Sleeper', 1, 0, 'ApplicationController')
     qmlRegisterType(NavigationController, 'Sleeper', 1, 0, 'NavigationController')
     qmlRegisterType(LoginController, 'Sleeper', 1, 0, 'LoginController')
     qmlRegisterType(TeamController, 'Sleeper', 1, 0, 'TeamController')
     qmlRegisterType(DashboardController, 'Sleeper', 1, 0, 'DashboardController')
 
-    controller = MasterController()
-    engine.rootContext().setContextProperty("masterController", controller)
+    controller = ApplicationController()
+    engine.rootContext().setContextProperty("app", controller)
 
     master_view = get_view('MasterView.qml')
     engine.load(master_view)

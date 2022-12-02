@@ -11,10 +11,10 @@ Item {
     readonly property string teamView: "LoginView"
 
     Connections {
-        target: masterController.navigationController
+        target: app.navigationController
         function onGoDashboardView() {
             selectedView = navbar.dashboardView;
-            if (masterController.loginController.logged) {
+            if (app.loginController.logged) {
                 return contentFrame.replace("../views/DashboardView.qml");
             } else {
                 return contentFrame.replace("../views/LoginView.qml");
@@ -42,25 +42,25 @@ Item {
                 description: qsTr("Dashboard")
                 selected: navbar.selectedView === navbar.dashboardView
                 onNavigationButtonClicked: {
-                    masterController.navigationController.goDashboardView();
+                    app.navigationController.goDashboardView();
                 }
             }
             NavigationButton {
                 iconCharacter: "\ue7ef"
                 description: qsTr("Team")
                 selected: navbar.selectedView === navbar.teamView
-                enabled: masterController.loginController.logged
+                enabled: app.loginController.logged
                 onNavigationButtonClicked: {
-                    masterController.navigationController.goTeamView();
+                    app.navigationController.goTeamView();
                 }
             }
             NavigationButton {
                 iconCharacter: "\ue838"
                 description: qsTr("Best Lineup")
                 selected: navbar.selectedView === navbar.bestLineupView
-                enabled: masterController.loginController.logged
+                enabled: app.loginController.logged
                 onNavigationButtonClicked: {
-                    masterController.navigationController.goBestLineupView();
+                    app.navigationController.goBestLineupView();
                 }
             }
         }

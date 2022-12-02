@@ -7,9 +7,9 @@ import assets 1.0
 Item {
 /*
     Connections {
-        target: masterController.loginController
+        target: app.loginController
         function onLoggedChanged() {
-            masterController.navigationController.goDashboardView()
+            app.navigationController.goDashboardView()
         }
         function onLoginFailed() {
             busyIndicator.visible = false;
@@ -23,7 +23,7 @@ Item {
 
         Label {
             id: label
-            text: qsTr("Last Update") + '\n' + masterController.dashboardController.lastUpdate()
+            text: qsTr("Last Update") + '\n' + app.dashboardController.lastUpdate()
             width: parent.width * 0.8
             anchors {
                 left: parent.left
@@ -59,7 +59,7 @@ Item {
                 onClicked: {
                     button.visible = false;
                     busyIndicator.visible = true;
-                    masterController.dashboardController.update()
+                    app.dashboardController.update()
                 }
             }
             BusyIndicator {

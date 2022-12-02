@@ -8,7 +8,7 @@ from sleeper_analyzer.context import Context
 from sleeper_analyzer.sleeper import Sleeper
 
 
-class MasterController(QObject):
+class ApplicationController(QObject):
     def __init__(self):
         QObject.__init__(self)
         self.context = Context()
