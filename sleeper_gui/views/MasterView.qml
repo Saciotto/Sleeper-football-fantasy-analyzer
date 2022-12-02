@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 
-import assets
 import components
 
 ApplicationWindow {
@@ -32,7 +31,7 @@ ApplicationWindow {
             right: parent.right
             left: navigationBar.right
         }
-        initialItem: "views/EmptyView.qml"
+        initialItem: "EmptyView.qml"
         clip: true
     }
 }

@@ -1,8 +1,6 @@
 import QtQuick
 
-import assets 1.0
-
-import QtQuick.Controls.Material
+import assets
 
 Item {
     id: navbar

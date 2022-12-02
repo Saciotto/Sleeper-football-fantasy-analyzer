@@ -1,9 +1,11 @@
 import QtQuick
 import QtQuick.Controls
 
-import assets 1.0
+import assets
 
 Item {
+    id: navbutton
+
     property alias iconCharacter: iconCharacter.text
     property alias description: description.text
     property bool selected: false
@@ -16,7 +18,7 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: selected ? Style.navigationButtonPressedColor : Style.navigationButtonColor
+        color: navbutton.selected ? Style.navigationButtonPressedColor : Style.navigationButtonColor
 
         Rectangle {
             id: selectionIndicator
@@ -25,7 +27,7 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             color: Style.navigationButtonSelectionIndicatorColor
-            visible: selected
+            visible: navbutton.selected
         }
 
         Column {
@@ -54,11 +56,11 @@ Item {
             id: mouseArea
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            enabled: parent.enabled && !selected
-            hoverEnabled: parent.enabled && !selected
+            enabled: parent.enabled && !navbutton.selected
+            hoverEnabled: parent.enabled && !navbutton.selected
             onEntered: background.state = "hover";
             onExited: background.state = ""
-            onClicked: navigationButtonClicked()
+            onClicked: navbutton.navigationButtonClicked()
         }
 
         states: [

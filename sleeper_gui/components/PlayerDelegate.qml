@@ -1,13 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 
-import assets 1.0
+import assets
 
 ItemDelegate {
     property var player
     signal itemClicked
 
-    id: root
+    id: item
+
     Rectangle {
         id: playerPosition
         anchors {
@@ -18,7 +19,7 @@ ItemDelegate {
         width: Style.playerPositionBoxWidth
         height: Style.playerPositionBoxHeight
         color: {
-            switch (player.fantasy_positions[0]) {
+            switch (item.player.fantasy_positions[0]) {
             case 'QB':
                 return Style.qbBackgroundColor;
             case 'RB':
@@ -39,7 +40,7 @@ ItemDelegate {
         radius: Style.listItemRadius
         Label {
             anchors.fill: parent
-            text: player.fantasy_positions[0]
+            text: item.player.fantasy_positions[0]
             horizontalAlignment: Label.AlignHCenter
             verticalAlignment: Label.AlignVCenter
             font {
@@ -54,7 +55,7 @@ ItemDelegate {
             leftMargin: 8
             verticalCenter: parent.verticalCenter
         }
-        text: player.full_name
+        text: item.player.full_name
         font {
             pixelSize: Style.playerTextFontSize
         }

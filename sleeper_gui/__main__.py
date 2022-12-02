@@ -11,7 +11,6 @@ from sleeper_gui.controllers.team_controller import TeamController
 from sleeper_gui.controllers.dashboard_controller import DashboardController
 
 
-# noinspection PyTypeChecker
 def main():
     enable_qml_logs()
 

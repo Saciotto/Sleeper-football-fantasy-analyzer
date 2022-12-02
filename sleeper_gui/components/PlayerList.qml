@@ -1,12 +1,14 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 
-import assets 1.0
+import assets
 
 Item {
     id: root
     property string players
-    property alias currentItem: list.currentItem
+    property alias currentItem: listView.currentItem
 
     Rectangle {
         anchors.fill:parent
@@ -16,11 +18,11 @@ Item {
         Component {
             id: highlight
             Rectangle {
-                width: list.width
+                width: listView.width
                 height: Style.listItemHeight
                 color: Style.listItemSelectedBackground
                 radius: Style.listItemRadius
-                y: list.currentItem ? list.currentItem.y : 0
+                y: listView.currentItem ? listView.currentItem.y : 0
             }
         }
 
@@ -28,17 +30,19 @@ Item {
             anchors.fill: parent
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             ListView {
-                id: list
+                id: listView
                 anchors.fill: parent
                 anchors.margins: Style.listMargin
                 spacing: Style.listSpacing
                 clip: true
                 model: JSON.parse(root.players)
                 delegate: PlayerDelegate {
-                    width: list.width
+                    required property int index
+                    required property var modelData 
+                    width: listView.width
                     height: Style.listItemHeight
                     player: modelData
-                    onClicked: list.currentIndex = index
+                    onClicked: listView.currentIndex = index
                 }
                 focus: true
                 highlight: highlight
