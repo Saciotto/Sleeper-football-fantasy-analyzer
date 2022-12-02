@@ -11,7 +11,7 @@ Item {
     readonly property string teamView: "LoginView"
 
     Connections {
-        target: app.navigationController
+        target: app.navigation
         function onGoDashboardView() {
             selectedView = navbar.dashboardView;
             if (app.loginController.logged) {
@@ -42,7 +42,7 @@ Item {
                 description: qsTr("Dashboard")
                 selected: navbar.selectedView === navbar.dashboardView
                 onNavigationButtonClicked: {
-                    app.navigationController.goDashboardView();
+                    app.navigation.goDashboardView();
                 }
             }
             NavigationButton {
@@ -51,7 +51,7 @@ Item {
                 selected: navbar.selectedView === navbar.teamView
                 enabled: app.loginController.logged
                 onNavigationButtonClicked: {
-                    app.navigationController.goTeamView();
+                    app.navigation.goTeamView();
                 }
             }
             NavigationButton {
@@ -60,7 +60,7 @@ Item {
                 selected: navbar.selectedView === navbar.bestLineupView
                 enabled: app.loginController.logged
                 onNavigationButtonClicked: {
-                    app.navigationController.goBestLineupView();
+                    app.navigation.goBestLineupView();
                 }
             }
         }

@@ -23,7 +23,7 @@ class ApplicationController(QObject):
         return self.login_controller
 
     @Property(NavigationController, constant=True)
-    def navigationController(self):
+    def navigation(self):
         return self.navigation_controller
 
     @Property(TeamController, constant=True)
@@ -31,5 +31,5 @@ class ApplicationController(QObject):
         return self.team_controller
 
     @Property(DashboardController, constant=True)
-    def dashboardController(self):
+    def dashboard(self):
         return self.dashboard_controller

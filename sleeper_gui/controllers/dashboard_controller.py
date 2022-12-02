@@ -3,7 +3,6 @@ from PySide6.QtCore import QObject, Signal, Slot
 from threading import Thread
 
 
-# noinspection PyUnresolvedReferences
 class DashboardController(QObject):
     updateCompleted = Signal()
     updateFailed = Signal()

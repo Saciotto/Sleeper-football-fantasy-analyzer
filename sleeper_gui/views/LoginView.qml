@@ -9,7 +9,7 @@ Item {
     Connections {
         target: app.loginController
         function onLoggedChanged() {
-            app.navigationController.goDashboardView()
+            app.navigation.goDashboardView()
         }
         function onLoginFailed() {
             busyIndicator.visible = false;

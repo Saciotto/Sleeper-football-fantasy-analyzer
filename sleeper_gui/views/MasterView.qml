@@ -11,7 +11,7 @@ ApplicationWindow {
     title: qsTr("Sleeper Football Fantasy Analyzer")
 
     Component.onCompleted: function() {
-        app.navigationController.goDashboardView();
+        app.navigation.goDashboardView();
     }
 
     NavigationBar {

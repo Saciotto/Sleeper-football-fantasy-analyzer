@@ -5,25 +5,25 @@ import QtQuick.Layouts
 import assets 1.0
 
 Item {
-/*
+
     Connections {
         target: app.loginController
         function onLoggedChanged() {
-            app.navigationController.goDashboardView()
+            app.navigation.goDashboardView()
         }
         function onLoginFailed() {
             busyIndicator.visible = false;
             button.visible = true;
         }
     }
-    */
+
     Rectangle {
         anchors.fill:parent
         color: Style.backgroundColor
 
         Label {
             id: label
-            text: qsTr("Last Update") + '\n' + app.dashboardController.lastUpdate()
+            text: qsTr("Last Update") + '\n' + app.dashboard.lastUpdate()
             width: parent.width * 0.8
             anchors {
                 left: parent.left
@@ -59,7 +59,7 @@ Item {
                 onClicked: {
                     button.visible = false;
                     busyIndicator.visible = true;
-                    app.dashboardController.update()
+                    app.dashboard.update()
                 }
             }
             BusyIndicator {
