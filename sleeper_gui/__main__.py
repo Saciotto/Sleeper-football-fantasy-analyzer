@@ -6,7 +6,7 @@ from PySide6.QtQml import QQmlApplicationEngine, qmlRegisterType
 from sleeper_gui.helpers import get_qml_root, enable_qml_logs, get_view
 from sleeper_gui.controllers.application_controller import ApplicationController
 from sleeper_gui.controllers.navigation_controller import NavigationController
-from sleeper_gui.controllers.login_controller import LoginController
+from sleeper_gui.controllers.session_controller import SessionController
 from sleeper_gui.controllers.team_controller import TeamController
 from sleeper_gui.controllers.dashboard_controller import DashboardController
 
@@ -26,7 +26,7 @@ def main():
 
     qmlRegisterType(ApplicationController, 'Sleeper', 1, 0, 'ApplicationController')
     qmlRegisterType(NavigationController, 'Sleeper', 1, 0, 'NavigationController')
-    qmlRegisterType(LoginController, 'Sleeper', 1, 0, 'LoginController')
+    qmlRegisterType(SessionController, 'Sleeper', 1, 0, 'SessionController')
     qmlRegisterType(TeamController, 'Sleeper', 1, 0, 'TeamController')
     qmlRegisterType(DashboardController, 'Sleeper', 1, 0, 'DashboardController')
 

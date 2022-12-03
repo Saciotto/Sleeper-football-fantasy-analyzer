@@ -109,7 +109,7 @@ class Sleeper:
         self._download_players_info()
         if year is None:
             year = nfl_state['season']
-        user, leagues = self._download_user_leagues(username, year)
+        _, leagues = self._download_user_leagues(username, year)
         for league in leagues:
             league_id = league['league_id']
             users, rosters = self._download_leagues(league_id)

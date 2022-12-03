@@ -14,7 +14,7 @@ Item {
         target: app.navigation
         function onGoDashboardView() {
             selectedView = navbar.dashboardView;
-            if (app.loginController.logged) {
+            if (app.session.logged) {
                 return contentFrame.replace("../views/DashboardView.qml");
             } else {
                 return contentFrame.replace("../views/LoginView.qml");
@@ -49,7 +49,7 @@ Item {
                 iconCharacter: "\ue7ef"
                 description: qsTr("Team")
                 selected: navbar.selectedView === navbar.teamView
-                enabled: app.loginController.logged
+                enabled: app.session.logged
                 onNavigationButtonClicked: {
                     app.navigation.goTeamView();
                 }
@@ -58,7 +58,7 @@ Item {
                 iconCharacter: "\ue838"
                 description: qsTr("Best Lineup")
                 selected: navbar.selectedView === navbar.bestLineupView
-                enabled: app.loginController.logged
+                enabled: app.session.logged
                 onNavigationButtonClicked: {
                     app.navigation.goBestLineupView();
                 }

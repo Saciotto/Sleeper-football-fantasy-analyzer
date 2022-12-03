@@ -7,9 +7,9 @@ import components 1.0
 Item {
 
     Connections {
-        target: app.teamController
+        target: app.team
         function onLeagueUsersChanged() {
-            usersBox.currentIndex = usersBox.indexOfValue(app.teamController.selectedUser);
+            usersBox.currentIndex = usersBox.indexOfValue(app.team.selectedUser);
         }
     }
 
@@ -19,28 +19,28 @@ Item {
 
         ComboBox {
             id: leagueBox
-            model: app.teamController.leagues
-            onActivated: app.teamController.selectedLeague = currentValue
+            model: app.team.leagues
+            onActivated: app.team.selectedLeague = currentValue
             anchors {
                 left: parent.left
                 right: parent.horizontalCenter
                 top: parent.top
                 margins: 8
             }
-            Component.onCompleted: currentIndex = indexOfValue(app.teamController.selectedLeague)
+            Component.onCompleted: currentIndex = indexOfValue(app.team.selectedLeague)
         }
 
         ComboBox {
             id: usersBox
-            model: app.teamController.leagueUsers
-            onActivated: app.teamController.selectedUser = currentValue
+            model: app.team.leagueUsers
+            onActivated: app.team.selectedUser = currentValue
             anchors {
                 left: leagueBox.right
                 right: parent.right
                 top: parent.top
                 margins: 8
             }
-            Component.onCompleted: currentIndex = indexOfValue(app.teamController.selectedUser)
+            Component.onCompleted: currentIndex = indexOfValue(app.team.selectedUser)
         }
 
         PlayerList {
@@ -53,7 +53,7 @@ Item {
                 margins: 8
             }
             clip: true
-            players: app.teamController.players
+            players: app.team.players
         }
 
         ScrollView {
@@ -66,7 +66,7 @@ Item {
             }
             Label {
                 anchors.fill: parent
-                text: JSON.stringify(JSON.parse(app.teamController.playerStatistics(playerList.currentItem.player.player_id)),null,2)
+                text: JSON.stringify(JSON.parse(app.team.playerStatistics(playerList.currentItem.player.player_id)),null,2)
             }
         }
     }

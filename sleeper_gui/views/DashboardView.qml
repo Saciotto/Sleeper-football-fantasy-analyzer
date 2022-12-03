@@ -7,7 +7,7 @@ import assets 1.0
 Item {
 
     Connections {
-        target: app.loginController
+        target: app.session
         function onLoggedChanged() {
             app.navigation.goDashboardView()
         }

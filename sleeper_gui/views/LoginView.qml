@@ -7,7 +7,7 @@ import assets 1.0
 Item {
 
     Connections {
-        target: app.loginController
+        target: app.session
         function onLoggedChanged() {
             app.navigation.goDashboardView()
         }
@@ -69,7 +69,7 @@ Item {
                 onClicked: {
                     button.visible = false;
                     busyIndicator.visible = true;
-                    app.loginController.login(username.text)
+                    app.session.login(username.text)
                 }
             }
             BusyIndicator {

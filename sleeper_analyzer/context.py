@@ -17,7 +17,10 @@ class Context:
 
     @property
     def username(self):
-        return self.get_config('username')
+        try:
+            return self.sleeper.user_info()['username']
+        except (IndexError, FileNotFoundError):
+            return None
 
     @property
     def last_update(self):
@@ -31,7 +34,7 @@ class Context:
             try:
                 default_league = self.sleeper.user_leagues[0]
                 default_league = default_league['league_id']
-            except IndexError:
+            except (IndexError, FileNotFoundError):
                 default_league = None
         return default_league
 
@@ -43,14 +46,19 @@ class Context:
 
     @property
     def current_week(self):
-        return int(self.sleeper.nfl_state['week'])
+        try:
+            return int(self.sleeper.nfl_state['week'])
+        except (IndexError, FileNotFoundError):
+            return 0
 
     @property
     def current_season(self):
-        return int(self.sleeper.nfl_state['season'])
+        try:
+            return int(self.sleeper.nfl_state['season'])
+        except (IndexError, FileNotFoundError):
+            return 0
 
-    def update(self, username):
-        self.set_config('username', username)
+    def update(self):
         self.set_config('last_update', datetime.now().isoformat())
 
     def get_config(self, key, default=None):

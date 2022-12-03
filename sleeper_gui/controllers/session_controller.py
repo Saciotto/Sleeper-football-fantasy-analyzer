@@ -3,8 +3,7 @@ from PySide6.QtCore import QObject, Signal, Property, Slot
 from threading import Thread
 
 
-# noinspection PyUnresolvedReferences
-class LoginController(QObject):
+class SessionController(QObject):
     loggedChanged = Signal()
     loginFailed = Signal()
 
@@ -12,11 +11,10 @@ class LoginController(QObject):
         QObject.__init__(self, parent)
         self._context = parent.context
         self._sleeper = parent.sleeper
-        self._logged = self._context.username is not None
 
     @Property(bool, notify=loggedChanged)
     def logged(self):
-        return self._logged
+        return self._context.username is not None
 
     @Slot(str)
     def login(self, username):
@@ -28,8 +26,7 @@ class LoginController(QObject):
             return
         try:
             self._sleeper.download_statistics(username)
-            self._context.update(username)
-            self._logged = True
+            self._context.update()
             self.loggedChanged.emit()
         except Exception:
             print(traceback.format_exc())

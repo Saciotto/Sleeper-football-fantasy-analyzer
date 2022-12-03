@@ -26,8 +26,8 @@ class DashboardController(QObject):
         username = self._context.username
         try:
             self._sleeper.download_statistics(username)
-            self._context.update(username)
+            self._context.update()
             self.updateCompleted.emit()
         except Exception:
             print(traceback.format_exc())
-            self.loginFailed.emit()
+            self.updateFailed.emit()

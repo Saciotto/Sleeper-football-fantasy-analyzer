@@ -6,20 +6,14 @@ from sleeper_analyzer.models.league import League
 from sleeper_analyzer.models.player import Player
 
 
-# noinspection PyUnresolvedReferences,PyTypeChecker
 class TeamController(QObject):
     selectedLeagueChanged = Signal()
     selectedUserChanged = Signal()
     playersChanged = Signal()
 
-    def __init__(self, parent, username=None, league=None):
+    def __init__(self, parent):
         QObject.__init__(self, parent)
         self._context = parent.context
-        league_name = league if league is not None else self._context.default_league
-        selected_league = League(self._context, league_name)
-        self._selected_league = selected_league.name
-        self._league_users = [user['display_name'] for user in selected_league.users]
-        self._selected_user = username if username is not None else self._context.username
         self.selectedLeagueChanged.connect(self.playersChanged)
         self.selectedUserChanged.connect(self.playersChanged)
 
@@ -68,3 +62,11 @@ class TeamController(QObject):
     def playerStatistics(self, player_id):
         player = Player(self._context, player_id)
         return json.dumps(player.statistics)
+
+    @Slot()
+    def update(self):
+        league_name = self._context.default_league
+        selected_league = League(self._context, league_name)
+        self._selected_league = selected_league.name
+        self._league_users = [user['display_name'] for user in selected_league.users]
+        self._selected_user = self._context.username
