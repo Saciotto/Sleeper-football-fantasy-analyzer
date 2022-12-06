@@ -1,5 +1,5 @@
 import json
-from urllib.request import Request, urlopen
+import urllib.request
 
 
 class SleeperAPI:
@@ -7,8 +7,8 @@ class SleeperAPI:
         self._timeout = timeout
 
     def _get(self, url):
-        request = Request(url, method='GET')
-        with urlopen(request, timeout=self._timeout) as response:
+        request = urllib.request.Request(url, method='GET')
+        with urllib.request.urlopen(request, timeout=self._timeout) as response:
             return json.load(response)
 
     def get_user(self, user_name):
@@ -89,12 +89,12 @@ class SleeperAPI:
             .format(lookback_hours, limit)
         return self._get(url)
 
-    def get_player_projections(self, player_id):
-        url = 'https://api.sleeper.app/projections/nfl/player/{}?season_type=regular&season=2021&grouping=week' \
-            .format(player_id)
+    def get_player_projections(self, player_id, season):
+        url = 'https://api.sleeper.app/projections/nfl/player/{}?season_type=regular&season={}&grouping=week' \
+            .format(player_id, season)
         return self._get(url)
 
-    def get_player_statistics(self, player_id):
-        url = 'https://api.sleeper.app/stats/nfl/player/{}?season_type=regular&season=2021&grouping=week' \
-            .format(player_id)
+    def get_player_statistics(self, player_id, season):
+        url = 'https://api.sleeper.app/stats/nfl/player/{}?season_type=regular&season={}&grouping=week' \
+            .format(player_id, season)
         return self._get(url)

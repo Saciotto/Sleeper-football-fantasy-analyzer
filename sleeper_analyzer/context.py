@@ -3,6 +3,8 @@ from datetime import datetime
 from .config import Config
 from .sleeper import Sleeper
 
+from sleeper_analyzer.exceptions import UninitializedExeception
+
 
 class Context:
     _config = None
@@ -18,8 +20,8 @@ class Context:
     @property
     def username(self):
         try:
-            return self.sleeper.user_info()['username']
-        except (IndexError, FileNotFoundError):
+            return self.sleeper.user_info['username']
+        except (TypeError, IndexError, FileNotFoundError, UninitializedExeception):
             return None
 
     @property

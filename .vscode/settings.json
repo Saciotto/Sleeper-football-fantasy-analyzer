@@ -6,9 +6,13 @@
     "python.linting.flake8Args": [
         "--max-line-length=120"
     ],
-    "python.analysis.typeCheckingMode": "off",
+    "python.testing.unittestEnabled": true,
+    "python.testing.unittestArgs": [
+        "-v", "-s", "tests", "-p", "test_*.py"
+    ],
+    "python.testing.pytestEnabled": false,
     "qtForPython.qmllint.options": [
         "-I", "${workspaceFolder}/sleeper_gui",
         "--unqualified", "disable"
-    ],
+    ]
 }

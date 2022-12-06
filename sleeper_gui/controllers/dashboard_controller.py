@@ -2,6 +2,8 @@ import traceback
 from PySide6.QtCore import QObject, Signal, Slot
 from threading import Thread
 
+from sleeper_analyzer import downloader
+
 
 class DashboardController(QObject):
     updateCompleted = Signal()
@@ -25,7 +27,7 @@ class DashboardController(QObject):
     def _execute_update(self):
         username = self._context.username
         try:
-            self._sleeper.download_statistics(username)
+            downloader.download_statistics(username)
             self._context.update()
             self.updateCompleted.emit()
         except Exception:

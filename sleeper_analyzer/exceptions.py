@@ -1,10 +1,18 @@
-class LeagueNotFoundException(Exception):
+class SleeperAnalizerException(Exception):
     pass
 
 
-class UserNotFoundException(Exception):
+class UninitializedExeception(SleeperAnalizerException):
     pass
 
 
-class RosterNotFoundException(Exception):
+class LeagueNotFoundException(SleeperAnalizerException):
+    pass
+
+
+class UserNotFoundException(SleeperAnalizerException):
+    pass
+
+
+class RosterNotFoundException(SleeperAnalizerException):
     pass

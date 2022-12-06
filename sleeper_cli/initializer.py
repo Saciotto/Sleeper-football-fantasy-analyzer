@@ -1,12 +1,11 @@
 from argparse import ArgumentParser
 
 from sleeper_analyzer import __version__
-from sleeper_analyzer.sleeper import Sleeper
+from sleeper_analyzer import downloader
 
 
 def download_updates(context, args):
-    sleeper = Sleeper()
-    sleeper.download_statistics(args.username)
+    downloader.download_statistics(args.username)
     context.update()
     print('Done!')
 
