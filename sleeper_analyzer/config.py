@@ -1,11 +1,14 @@
 import json
+from pathlib import Path
 
 from . import __version__
-from .sleeper import SLEEPER_HOME
+from sleeper_analyzer.sleeper import SLEEPER_HOME
 
 
 class BaseConfigDict(dict):
-    path = SLEEPER_HOME / 'config.json'
+
+    def __init__(self, path):
+        self.path = Path(path) / 'config.json'
 
     def ensure_directory(self):
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -35,6 +38,6 @@ class Config(BaseConfigDict):
         'default_options': []
     }
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, path=SLEEPER_HOME):
+        super().__init__(path)
         self.update(self.DEFAULTS)
