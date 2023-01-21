@@ -2,8 +2,8 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from .utils import rm_tree
-from .sleeper_api import SleeperAPI
+import sleeper_analyzer.utils as utils
+from sleeper_analyzer.sleeper_api import SleeperAPI
 
 
 SLEEPER_HOME = Path.home() / 'Sleeper'
@@ -121,7 +121,7 @@ def download_statistics(username, destination=SLEEPER_HOME):
     leagues_folder = destination / PATH_LEAGUES_FOLDER
     players_folder = destination / PATH_PLAYERS_FOLDER
 
-    rm_tree(destination)
+    utils.rm_tree(destination)
     nfl_state = download_nfl_state(nfl_file)
     download_players_info(players_file)
     user = download_user_info(user_info_file, username)

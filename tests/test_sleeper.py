@@ -1,9 +1,11 @@
 import unittest
-import tests.mock_files as files
+from unittest.mock import patch
 from sleeper_analyzer.sleeper import Sleeper
 
-from sleeper_analyzer.exceptions import LeagueNotFoundException, UserNotFoundException
-from sleeper_analyzer.utils import load_json_file
+import tests.mock_requests as requests
+import tests.mock_files as files
+from sleeper_analyzer.exceptions import LeagueNotFoundException, UserNotFoundException, UninitializedExeception
+from sleeper_analyzer.utils import load_json_file, rm_tree
 
 
 class TestSleeper(unittest.TestCase):
@@ -119,3 +121,25 @@ class TestSleeper(unittest.TestCase):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
         with self.assertRaises(UserNotFoundException):
             sleeper.get_league_user('User', 'SuperFlex Fantasy')
+
+    def test_unitialized(self):
+        sleeper = Sleeper(files.TEMP_FOLDER)
+        with self.assertRaises(UninitializedExeception):
+            sleeper.get_league_user('User', 'SuperFlex Fantasy')
+
+
+class TestSleeperDownloader(unittest.TestCase):
+
+    def setUp(self):
+        rm_tree(files.TEMP_FOLDER)
+
+    def tearDown(self):
+        rm_tree(files.TEMP_FOLDER)
+
+    @patch('urllib.request.urlopen')
+    def test_download(self, mock_urlopen):
+        mock_urlopen.side_effect = requests.urlopen_by_url
+        sleeper = Sleeper(files.TEMP_FOLDER)
+        sleeper.download('username')
+        expected = load_json_file(files.NFL_STATE_FILE)
+        self.assertEqual(sleeper.nfl_state, expected)
