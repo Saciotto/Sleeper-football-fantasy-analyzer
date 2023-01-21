@@ -15,7 +15,6 @@ class Sleeper:
         players_file = self.path / 'generic/players.json'
         user_info_file = self.path / 'user/user.json'
         user_league_file = self.path / 'user/leagues.json'
-
         self.leagues_path = self.path / 'generic/leagues'
         self.players_path = self.path / 'generic/players'
         self.nfl_state = load_json_file(nfl_state_file)
@@ -45,11 +44,15 @@ class Sleeper:
         raise LeagueNotFoundException('{} not found in user_leagues.json'.format(name))
 
     def get_league_users(self, league):
+        if not isinstance(league, dict):
+            league = self.get_league(league)
         league_users_path = self.leagues_path / league['league_id'] / 'users.json'
         with league_users_path.open() as fp:
             return json.load(fp)
 
     def get_league_rosters(self, league):
+        if not isinstance(league, dict):
+            league = self.get_league(league)
         league_rosters_path = self.leagues_path / league['league_id'] / 'rosters.json'
         with league_rosters_path.open() as fp:
             return json.load(fp)
