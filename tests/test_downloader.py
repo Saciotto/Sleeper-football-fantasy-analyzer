@@ -6,17 +6,17 @@ from urllib.request import HTTPError
 
 import tests.mock_requests as requests
 import tests.mock_files as files
-from sleeper_analyzer.utils import rm_tree
+import sleeper_analyzer.utils as utils
 from sleeper_analyzer import downloader
 
 
 class TestDownloader(unittest.TestCase):
 
     def setUp(self):
-        rm_tree(files.TEMP_FOLDER)
+        utils.rm_tree(files.TEMP_FOLDER)
 
     def tearDown(self):
-        rm_tree(files.TEMP_FOLDER)
+        utils.rm_tree(files.TEMP_FOLDER)
 
     @patch('urllib.request.urlopen')
     def test_download_nfl_state(self, mock_urlopen):

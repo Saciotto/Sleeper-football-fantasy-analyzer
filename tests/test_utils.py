@@ -1,7 +1,7 @@
 import unittest
 import tests.mock_files as files
 
-from sleeper_analyzer.utils import load_json_file, rm_tree
+import sleeper_analyzer.utils as utils
 
 
 class TestUtils(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestUtils(unittest.TestCase):
             "default_options": [],
             "last_update": "2022-12-06T09:48:53.240102"
         }
-        config = load_json_file(files.CONFIG_FILE)
+        config = utils.load_json_file(files.CONFIG_FILE)
         self.assertEqual(config, expected)
 
     def test_rm_tree(self):
@@ -23,5 +23,5 @@ class TestUtils(unittest.TestCase):
         with file.open("w") as fp:
             print('Test', file=fp)
         self.assertTrue(root.exists())
-        rm_tree(root)
+        utils.rm_tree(root)
         self.assertFalse(root.exists())

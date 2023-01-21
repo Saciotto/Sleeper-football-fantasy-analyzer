@@ -4,30 +4,30 @@ from sleeper_analyzer.sleeper import Sleeper
 
 import tests.mock_requests as requests
 import tests.mock_files as files
+import sleeper_analyzer.utils as utils
 from sleeper_analyzer.exceptions import LeagueNotFoundException, UserNotFoundException, UninitializedExeception
-from sleeper_analyzer.utils import load_json_file, rm_tree
 
 
 class TestSleeper(unittest.TestCase):
 
     def test_nfl_state(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.NFL_STATE_FILE)
+        expected = utils.load_json_file(files.NFL_STATE_FILE)
         self.assertEqual(sleeper.nfl_state, expected)
 
     def test_players_info(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.PLAYERS_INFO_FILE)
+        expected = utils.load_json_file(files.PLAYERS_INFO_FILE)
         self.assertEqual(sleeper.players_info, expected)
 
     def test_user_info(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.USER_INFO_FILE)
+        expected = utils.load_json_file(files.USER_INFO_FILE)
         self.assertEqual(sleeper.user_info, expected)
 
     def test_user_leagues(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.USER_LEAGUES_FILE)
+        expected = utils.load_json_file(files.USER_LEAGUES_FILE)
         self.assertEqual(sleeper.user_leagues, expected)
 
     def test_users_list(self):
@@ -38,77 +38,77 @@ class TestSleeper(unittest.TestCase):
 
     def test_get_league_by_id(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/info.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/info.json')
         league = sleeper.get_league('784459508880666624')
         self.assertEqual(league, expected)
 
     def test_get_league_by_name(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/info.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/info.json')
         league = sleeper.get_league('SuperFlex Fantasy')
         self.assertEqual(league, expected)
 
     def test_get_league_users(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/users.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/users.json')
         league = sleeper.get_league('SuperFlex Fantasy')
         user_leagues = sleeper.get_league_users(league)
         self.assertEqual(user_leagues, expected)
 
     def test_get_league_users_by_name(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/users.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/users.json')
         user_leagues = sleeper.get_league_users('SuperFlex Fantasy')
         self.assertEqual(user_leagues, expected)
 
     def test_get_league_rosters(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/rosters.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/rosters.json')
         league = sleeper.get_league('SuperFlex Fantasy')
         league_rosters = sleeper.get_league_rosters(league)
         self.assertEqual(league_rosters, expected)
 
     def test_get_league_rosters_by_name(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/rosters.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/rosters.json')
         league_rosters = sleeper.get_league_rosters('SuperFlex Fantasy')
         self.assertEqual(league_rosters, expected)
 
     def test_get_league_user_by_id(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/303333123121229824/user.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/303333123121229824/user.json')
         league = sleeper.get_league('SuperFlex Fantasy')
         league_user = sleeper.get_league_user('303333123121229824', league)
         self.assertEqual(league_user, expected)
 
     def test_get_league_user_by_name(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/303333123121229824/user.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/303333123121229824/user.json')
         league = sleeper.get_league('SuperFlex Fantasy')
         league_user = sleeper.get_league_user('murilocorreia', league)
         self.assertEqual(league_user, expected)
 
     def test_get_league_user_by_name_and_league_name(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.LEAGUE_FOLDER / '784459508880666624/303333123121229824/user.json')
+        expected = utils.load_json_file(files.LEAGUE_FOLDER / '784459508880666624/303333123121229824/user.json')
         league_user = sleeper.get_league_user('murilocorreia', 'SuperFlex Fantasy')
         self.assertEqual(league_user, expected)
 
     def test_get_player(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.PLAYERS_INFO_FILE)['167']
+        expected = utils.load_json_file(files.PLAYERS_INFO_FILE)['167']
         player = sleeper.get_player('167')
         self.assertEqual(player, expected)
 
     def test_get_player_statistics(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.PLAYER_FOLDER / '167/statistics.json')
+        expected = utils.load_json_file(files.PLAYER_FOLDER / '167/statistics.json')
         player = sleeper.get_player_statistics('167')
         self.assertEqual(player, expected)
 
     def test_get_player_projections(self):
         sleeper = Sleeper(files.TEST_DATA_FOLDER)
-        expected = load_json_file(files.PLAYER_FOLDER / '167/projections.json')
+        expected = utils.load_json_file(files.PLAYER_FOLDER / '167/projections.json')
         player = sleeper.get_player_projections('167')
         self.assertEqual(player, expected)
 
@@ -131,15 +131,15 @@ class TestSleeper(unittest.TestCase):
 class TestSleeperDownloader(unittest.TestCase):
 
     def setUp(self):
-        rm_tree(files.TEMP_FOLDER)
+        utils.rm_tree(files.TEMP_FOLDER)
 
     def tearDown(self):
-        rm_tree(files.TEMP_FOLDER)
+        utils.rm_tree(files.TEMP_FOLDER)
 
     @patch('urllib.request.urlopen')
     def test_download(self, mock_urlopen):
         mock_urlopen.side_effect = requests.urlopen_by_url
         sleeper = Sleeper(files.TEMP_FOLDER)
         sleeper.download('username')
-        expected = load_json_file(files.NFL_STATE_FILE)
+        expected = utils.load_json_file(files.NFL_STATE_FILE)
         self.assertEqual(sleeper.nfl_state, expected)
