@@ -2,28 +2,15 @@ from argparse import ArgumentParser
 from types import SimpleNamespace
 
 from sleeper_analyzer import __version__
-from sleeper_analyzer.models.league import League
-from sleeper_analyzer.models.team import Team
 from sleeper_cli.initializer import update_command
 from sleeper_cli.league_command import league_parser
 
 
-def _default_league(sleeper):
-    default_league = sleeper.config.get('default_league', None)
-    if default_league is None:
-        try:
-            default_league = sleeper.db.user_leagues[0]
-            default_league = default_league['league_id']
-        except (IndexError, FileNotFoundError):
-            default_league = None
-    return default_league
-
-
 def _add_default_options(sleeper, args):
     if 'user' in args and args.user is None:
-        args.user = sleeper.db.username
+        args.user = sleeper.default_user
     if 'league' in args and args.league is None:
-        args.league = _default_league(sleeper)
+        args.league = sleeper.default_league
 
 
 def _leagues(sleeper, _):
@@ -59,11 +46,11 @@ def _best_projected_lineup(sleeper, args):
 
 
 def _set_user(sleeper, args):
-    sleeper.config['username'] = args.user
+    sleeper.default_user = args.user
 
 
 def _set_league(sleeper, args):
-    sleeper.config['default_league'] = args.league
+    sleeper.default_league = args.league
 
 
 def main(sleeper):

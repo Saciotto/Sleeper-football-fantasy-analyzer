@@ -2,8 +2,6 @@ import traceback
 from PySide6.QtCore import QObject, Signal, Property, Slot
 from threading import Thread
 
-from sleeper_analyzer import downloader
-
 
 class SessionController(QObject):
     loggedChanged = Signal()
@@ -11,12 +9,11 @@ class SessionController(QObject):
 
     def __init__(self, parent):
         QObject.__init__(self, parent)
-        self._context = parent.context
         self._sleeper = parent.sleeper
 
     @Property(bool, notify=loggedChanged)
     def logged(self):
-        return self._context.username is not None
+        return self._sleeper.db.initialized
 
     @Slot(str)
     def login(self, username):
@@ -27,8 +24,7 @@ class SessionController(QObject):
         if self._logged:
             return
         try:
-            downloader.download_statistics(username)
-            self._context.update()
+            self._sleeper.download(username)
             self.loggedChanged.emit()
         except Exception:
             print(traceback.format_exc())

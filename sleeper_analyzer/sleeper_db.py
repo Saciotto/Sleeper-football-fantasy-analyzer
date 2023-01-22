@@ -8,7 +8,7 @@ import sleeper_analyzer.downloader as downloader
 
 
 class SleeperDatabase:
-    
+
     def __init__(self, path=files.SLEEPER_HOME):
         self.path = Path(path)
         self.leagues_path = self.path / files.PATH_LEAGUES_FOLDER
