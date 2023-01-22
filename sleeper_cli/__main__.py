@@ -1,14 +1,14 @@
-from sleeper_analyzer.context import Context
+from sleeper_analyzer.sleeper import Sleeper
 from sleeper_cli.initializer import initialize
 from sleeper_cli.main import main
 
 
 def console_entry():
-    context = Context()
-    if context.username is None:
-        initialize(context)
+    sleeper = Sleeper()
+    if sleeper.db.initialized:
+        main(sleeper)
     else:
-        main(context)
+        initialize(sleeper)
 
 
 if __name__ == '__main__':

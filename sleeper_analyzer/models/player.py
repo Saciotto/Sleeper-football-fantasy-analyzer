@@ -1,9 +1,9 @@
 class Player(dict):
 
-    def __init__(self, context, player_id):
+    def __init__(self, db, player_id):
         super().__init__()
-        self._context = context
-        data = self._context.sleeper.get_player(player_id)
+        self._db = db
+        data = self._db.get_player(player_id)
         self.update(data)
         self._statistics = None
         self._projections = None
@@ -39,7 +39,7 @@ class Player(dict):
     @property
     def statistics(self):
         if self._statistics is None:
-            self._statistics = self._context.sleeper.get_player_statistics(self.id)
+            self._statistics = self._db.get_player_statistics(self.id)
             if self._statistics is None:
                 self._statistics = {}
         return self._statistics
@@ -47,7 +47,7 @@ class Player(dict):
     @property
     def projections(self):
         if self._projections is None:
-            self._projections = self._context.sleeper.get_player_projections(self.id)
+            self._projections = self._db.get_player_projections(self.id)
             if self._projections is None:
                 self._projections = {}
         return self._projections

@@ -1,27 +1,26 @@
 from types import SimpleNamespace
-
 from pandas import DataFrame
 
-from .league import League
-from .player import Player
-from .user import User
-from ..exceptions import RosterNotFoundException
+from sleeper_analyzer.models.league import League
+from sleeper_analyzer.models.player import Player
+from sleeper_analyzer.models.user import User
+from sleeper_analyzer.exceptions import RosterNotFoundException
 
 
 class Team:
 
-    def __init__(self, context, user, league):
-        self._context = context
+    def __init__(self, db, user, league):
+        self._db = db
         if type(league) == str:
-            league = League(context, league)
+            league = League(self._db, league)
         if type(user) == str:
-            user = User(context, user, league)
+            user = User(self._db, user, league)
         self.user = user
         self.league = league
 
     @property
     def players(self):
-        return [Player(self._context, player_id) for player_id in self._get_roster()['players']]
+        return [Player(self._db, player_id) for player_id in self._get_roster()['players']]
 
     @property
     def roster_positions(self):
@@ -33,7 +32,7 @@ class Team:
 
     def scoring(self, stats_mode='statistics'):
         first_week = 1
-        last_week = self._context.current_week
+        last_week = self._db.current_week
         columns = ['name', 'age', 'position']
         columns += ['week_{}'.format(week) for week in range(first_week, last_week + 1)]
         data = self._scoring_generator(stats_mode, first_week, last_week)
@@ -41,7 +40,7 @@ class Team:
 
     def best_projected_lineup(self, week=None):
         if week is None:
-            week = self._context.current_week
+            week = self._db.current_week
         starters = self._best_projected_lineup(week)
         lineup = DataFrame(starters)
         lineup = lineup[['name', 'position', 'role', f'week_{week}']]
@@ -50,7 +49,7 @@ class Team:
 
     def player_scoring_per_week(self, player, stats_mode='statistics', first_week=1, last_week=None):
         if last_week is None:
-            last_week = self._context.current_week
+            last_week = self._db.current_week
         return list(self._player_scoring_per_week_generator(player, stats_mode, first_week, last_week))
 
     def __str__(self):

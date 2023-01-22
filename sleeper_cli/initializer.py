@@ -1,26 +1,24 @@
 from argparse import ArgumentParser
 
 from sleeper_analyzer import __version__
-from sleeper_analyzer import downloader
 
 
-def download_updates(context, args):
-    downloader.download_statistics(args.username)
-    context.update()
+def download_updates(sleeper, args):
+    sleeper.download(args.username)
     print('Done!')
 
 
-def initialize_command(context, args):
+def initialize_command(sleeper, args):
     print('Initializing {} data...'.format(args.username))
-    download_updates(context, args)
+    download_updates(sleeper, args)
 
 
-def update_command(context, args):
+def update_command(sleeper, args):
     print('Updating {} data...'.format(args.username))
-    download_updates(context, args)
+    download_updates(sleeper, args)
 
 
-def initialize(context):
+def initialize(sleeper):
     parser = ArgumentParser(prog='sleeper')
     subparsers = parser.add_subparsers(title='commands', metavar='command', help='description')
 
@@ -31,6 +29,6 @@ def initialize(context):
     parser.add_argument('--version', action='version', version=__version__)
     args = parser.parse_args()
     if 'func' in args:
-        args.func(context, args)
+        args.func(sleeper, args)
     else:
         parser.print_usage()

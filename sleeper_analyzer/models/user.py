@@ -1,22 +1,22 @@
-from ..exceptions import UserNotFoundException
+from sleeper_analyzer.exceptions import UserNotFoundException
 
 
 class User(dict):
 
-    def __init__(self, context, name, league=None):
+    def __init__(self, db, name, league=None):
         super().__init__()
-        self._context = context
+        self._db = db
         if league is not None:
-            data = self._context.sleeper.get_league_user(name, league)
+            data = self._db.get_league_user(name, league)
         else:
             data = self._search_user_by_username(name)
         self.update(data)
 
     def _search_user_by_username(self, name):
-        main_user = self._context.sleeper.user_info
+        main_user = self._db.user_info
         if self.test_user_match(main_user, name):
             return main_user
-        users = self._context.sleeper.users
+        users = self._db.users
         for user in users:
             if self.test_user_match(user, name):
                 return user

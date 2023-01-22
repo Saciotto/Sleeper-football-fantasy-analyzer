@@ -2,19 +2,9 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+import sleeper_analyzer.files as files
 import sleeper_analyzer.utils as utils
 from sleeper_analyzer.sleeper_api import SleeperAPI
-
-
-SLEEPER_HOME = Path.home() / 'Sleeper'
-
-PATH_NFL_STATE_FILE = Path('generic/nfl.json')
-PATH_PLAYERS_INFO_FILE = Path('generic/players.json')
-PATH_USER_INFO_FILE = Path('user/user.json')
-PATH_USER_LEAGUES_FILE = Path('user/leagues.json')
-
-PATH_PLAYERS_FOLDER = Path('generic/players')
-PATH_LEAGUES_FOLDER = Path('generic/leagues')
 
 
 def download_nfl_state(filename):
@@ -64,13 +54,13 @@ def download_league(folder, league_id):
     league_info = api.get_league(league_id)
     rosters = api.get_rosters(league_id)
     league_users = api.get_users_in_league(league_id)
-    league_info_file = folder / 'info.json'
+    league_info_file = folder / files.PATH_INFO_FILE
     with league_info_file.open('w') as fp:
         json.dump(league_info, fp)
-    rosters_file = folder / 'rosters.json'
+    rosters_file = folder / files.PATH_ROSTERS_FILE
     with rosters_file.open('w') as fp:
         json.dump(rosters, fp)
-    league_users_file = folder / 'users.json'
+    league_users_file = folder / files.PATH_USERS_FILE
     with league_users_file.open('w') as fp:
         json.dump(league_users, fp)
     return league_users, rosters
@@ -83,11 +73,11 @@ def download_rosters(folder, player_id, year):
         api = SleeperAPI()
         player_folder.mkdir(parents=True, exist_ok=True)
         player_statistics = api.get_player_statistics(player_id, year)
-        player_statistics_file = player_folder / 'statistics.json'
+        player_statistics_file = player_folder / files.PATH_STATISTICS_FILE
         with player_statistics_file.open('w') as fp:
             json.dump(player_statistics, fp)
         player_projections = api.get_player_projections(player_id, year)
-        player_projections_file = player_folder / 'projections.json'
+        player_projections_file = player_folder / files.PATH_PROJECTIONS_FILE
         with player_projections_file.open('w') as fp:
             json.dump(player_projections, fp)
 
@@ -97,8 +87,8 @@ def download_rosters_statistics(user_folder, rosters_folder, users, rosters, yea
     rosters_folder = Path(rosters_folder)
     for user in users:
         user_id = user['user_id']
-        user_file = user_folder / user_id / 'user.json'
-        players_file = user_folder / user_id / 'players.json'
+        user_file = user_folder / user_id / files.PATH_USER_FILE
+        players_file = user_folder / user_id / files.PATH_PLAYERS_FILE
         user_file.parent.mkdir(parents=True, exist_ok=True)
         with user_file.open('w') as fp:
             json.dump(user, fp)
@@ -111,15 +101,15 @@ def download_rosters_statistics(user_folder, rosters_folder, users, rosters, yea
                 json.dump(players, fp)
 
 
-def download_statistics(username, destination=SLEEPER_HOME):
+def download_statistics(username, destination=files.SLEEPER_HOME):
     destination = Path(destination)
 
-    nfl_file = destination / PATH_NFL_STATE_FILE
-    players_file = destination / PATH_PLAYERS_INFO_FILE
-    user_info_file = destination / PATH_USER_INFO_FILE
-    user_leagues_file = destination / PATH_USER_LEAGUES_FILE
-    leagues_folder = destination / PATH_LEAGUES_FOLDER
-    players_folder = destination / PATH_PLAYERS_FOLDER
+    nfl_file = destination / files.PATH_NFL_STATE_FILE
+    players_file = destination / files.PATH_PLAYERS_INFO_FILE
+    user_info_file = destination / files.PATH_USER_INFO_FILE
+    user_leagues_file = destination / files.PATH_USER_LEAGUES_FILE
+    leagues_folder = destination / files.PATH_LEAGUES_FOLDER
+    players_folder = destination / files.PATH_PLAYERS_FOLDER
 
     utils.rm_tree(destination)
     nfl_state = download_nfl_state(nfl_file)

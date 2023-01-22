@@ -1,12 +1,12 @@
-from .player import Player
+from sleeper_analyzer.models.player import Player
 
 
 class League(dict):
 
-    def __init__(self, context, name):
+    def __init__(self, db, name):
         super().__init__()
-        self.context = context
-        data = self.context.sleeper.get_league(name)
+        self._db = db
+        data = self._db.get_league(name)
         self.update(data)
 
     @property
@@ -27,17 +27,17 @@ class League(dict):
 
     @property
     def rosters(self):
-        return self.context.sleeper.get_league_rosters(self)
+        return self._db.get_league_rosters(self)
 
     @property
     def users(self):
-        return self.context.sleeper.get_league_users(self)
+        return self._db.get_league_users(self)
 
     @property
     def players(self):
         for roster in self.rosters:
             for player in roster.get('players', []):
-                yield Player(self.context, player)
+                yield Player(self._db, player)
 
     def player_score(self, player, week, stats_mode='statistics'):
         week_stats = player.week_statistics(week, stats_mode)
@@ -49,7 +49,7 @@ class League(dict):
 
     def player_scoring_per_week(self, player, stats_mode='statistics', first_week=1, last_week=None):
         if last_week is None:
-            last_week = self.context.current_week
+            last_week = self._db.current_week
         for week in range(first_week, last_week + 1):
             score = self.player_score(player, week, stats_mode)
             yield score
@@ -62,7 +62,7 @@ class League(dict):
 
     def scoring(self, players, stats_mode='statistics', first_week=1, last_week=None):
         if last_week is None:
-            last_week = self.context.current_week
+            last_week = self._db.current_week
         columns = ['name', 'age', 'position']
         columns += ['week_{}'.format(week) for week in range(first_week, last_week + 1)]
         data = self._scoring_generator(players, stats_mode, first_week, last_week)

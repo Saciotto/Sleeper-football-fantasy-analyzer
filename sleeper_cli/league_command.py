@@ -1,10 +1,8 @@
 from pandas import DataFrame
 
-from sleeper_analyzer.models.league import League
 
-
-def _players_scoring(context, args):
-    league = League(context, args.league)
+def _players_scoring(sleeper, args):
+    league = sleeper.get_league(args.league)
     data, columns = league.scoring(league.players)
     scoring = DataFrame(data, columns=columns)
     print(scoring)

@@ -4,58 +4,69 @@ from types import SimpleNamespace
 from sleeper_analyzer import __version__
 from sleeper_analyzer.models.league import League
 from sleeper_analyzer.models.team import Team
-from .initializer import update_command
-from .league_command import league_parser
+from sleeper_cli.initializer import update_command
+from sleeper_cli.league_command import league_parser
 
 
-def _add_default_options(context, args):
+def _default_league(sleeper):
+    default_league = sleeper.config.get('default_league', None)
+    if default_league is None:
+        try:
+            default_league = sleeper.db.user_leagues[0]
+            default_league = default_league['league_id']
+        except (IndexError, FileNotFoundError):
+            default_league = None
+    return default_league
+
+
+def _add_default_options(sleeper, args):
     if 'user' in args and args.user is None:
-        args.user = context.username
+        args.user = sleeper.db.username
     if 'league' in args and args.league is None:
-        args.league = context.default_league
+        args.league = _default_league(sleeper)
 
 
-def _leagues(context, _):
-    leagues = [league['name'] for league in context.sleeper.user_leagues]
+def _leagues(sleeper, _):
+    leagues = [league['name'] for league in sleeper.db.user_leagues]
     print(leagues)
 
 
-def _users(context, args):
-    league = League(context, args.league)
+def _users(sleeper, args):
+    league = sleeper.get_league(args.league)
     users = [user['display_name'] for user in league.users]
     print(users)
 
 
-def _players(context, args):
-    team = Team(context, args.user, args.league)
+def _players(sleeper, args):
+    team = sleeper.get_team(args.user, args.league)
     print(team.players)
 
 
-def _update(context, _):
+def _update(sleeper, _):
     args = SimpleNamespace()
-    args.username = context.username
-    update_command(context, args)
+    args.username = sleeper.db.username
+    update_command(sleeper, args)
 
 
-def _team_statistics(context, args):
-    team = Team(context, args.user, args.league)
+def _team_statistics(sleeper, args):
+    team = sleeper.get_team(args.user, args.league)
     print(team.scoring_dataframe())
 
 
-def _best_projected_lineup(context, args):
-    team = Team(context, args.user, args.league)
+def _best_projected_lineup(sleeper, args):
+    team = sleeper.get_team(args.user, args.league)
     print(team.best_projected_lineup())
 
 
-def _set_user(context, args):
-    context.set_config('username', args.user)
+def _set_user(sleeper, args):
+    sleeper.config['username'] = args.user
 
 
-def _set_league(context, args):
-    context.set_config('default_league', args.league)
+def _set_league(sleeper, args):
+    sleeper.config['default_league'] = args.league
 
 
-def main(context):
+def main(sleeper):
     parser = ArgumentParser(prog='sleeper')
     subparsers = parser.add_subparsers(title='commands', metavar='command', help='description')
 
@@ -100,7 +111,7 @@ def main(context):
     parser.add_argument('--version', action='version', version=__version__)
     args = parser.parse_args()
     if 'func' in args:
-        _add_default_options(context, args)
-        args.func(context, args)
+        _add_default_options(sleeper, args)
+        args.func(sleeper, args)
     else:
         parser.print_usage()
