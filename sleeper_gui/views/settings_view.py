@@ -76,10 +76,16 @@ class SettingsView(BaseView):
             users = self.sleeper.db.get_league_users(league_id)
             names = [u.get('display_name', u['user_id']) for u in users]
             self._user_combo['values'] = names
+            names_ci = {n.lower(): n for n in names}
             current = self._user_var.get()
-            if current not in names:
-                default = self.sleeper.default_user or ''
-                self._user_var.set(default if default in names else (names[0] if names else ''))
+            if current.lower() in names_ci:
+                self._user_var.set(names_ci[current.lower()])
+                return
+            default = self.sleeper.default_user or ''
+            if default.lower() in names_ci:
+                self._user_var.set(names_ci[default.lower()])
+            elif names:
+                self._user_var.set(names[0])
         except Exception as exc:
             self._status_var.set(f'Error loading users: {exc}')
 
