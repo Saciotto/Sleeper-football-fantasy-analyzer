@@ -17,18 +17,20 @@ class TeamView(BaseView):
         ctrl = tk.Frame(self, bg=_BG, padx=32, pady=14)
         ctrl.pack(fill='x')
 
-        tk.Label(ctrl, text='User:', bg=_BG,
-                 font=('Helvetica', 10)).grid(row=0, column=0, sticky='w')
-        self._user_var = tk.StringVar()
-        ttk.Entry(ctrl, textvariable=self._user_var, width=18).grid(
-            row=0, column=1, padx=(6, 18))
-
         tk.Label(ctrl, text='League:', bg=_BG,
-                 font=('Helvetica', 10)).grid(row=0, column=2, sticky='w')
+                 font=('Helvetica', 10)).grid(row=0, column=0, sticky='w')
         self._league_var = tk.StringVar()
         self._league_combo = ttk.Combobox(ctrl, textvariable=self._league_var,
                                           width=26, state='readonly')
-        self._league_combo.grid(row=0, column=3, padx=(6, 18))
+        self._league_combo.grid(row=0, column=1, padx=(6, 18))
+        self._league_combo.bind('<<ComboboxSelected>>', self._on_league_selected)
+
+        tk.Label(ctrl, text='User:', bg=_BG,
+                 font=('Helvetica', 10)).grid(row=0, column=2, sticky='w')
+        self._user_var = tk.StringVar()
+        self._user_combo = ttk.Combobox(ctrl, textvariable=self._user_var,
+                                        width=18, state='readonly')
+        self._user_combo.grid(row=0, column=3, padx=(6, 18))
 
         self._load_btn = ttk.Button(ctrl, text='Load', command=self._load)
         self._load_btn.grid(row=0, column=4)
@@ -62,7 +64,6 @@ class TeamView(BaseView):
         if not self.sleeper.db.initialized:
             return
         try:
-            self._user_var.set(self.sleeper.default_user or '')
             leagues = self.sleeper.db.user_leagues
             self._league_map = {
                 l.get('name', l['league_id']): l['league_id']
@@ -74,6 +75,24 @@ class TeamView(BaseView):
                 if lid == current_id:
                     self._league_var.set(name)
                     break
+            self._user_var.set(self.sleeper.default_user or '')
+            self._on_league_selected()
+        except Exception:
+            pass
+
+    def _on_league_selected(self, _event=None):
+        league_name = self._league_var.get()
+        league_id = self._league_map.get(league_name)
+        if not league_id:
+            return
+        try:
+            users = self.sleeper.db.get_league_users(league_id)
+            names = [u.get('display_name', u['user_id']) for u in users]
+            self._user_combo['values'] = names
+            current = self._user_var.get()
+            if current not in names:
+                default = self.sleeper.default_user or ''
+                self._user_var.set(default if default in names else (names[0] if names else ''))
         except Exception:
             pass
 

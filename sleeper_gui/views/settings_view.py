@@ -20,8 +20,9 @@ class SettingsView(BaseView):
                  font=('Helvetica', 11)).grid(row=0, column=0, sticky='w', pady=8)
 
         self._user_var = tk.StringVar()
-        ttk.Entry(body, textvariable=self._user_var, width=26).grid(
-            row=0, column=1, padx=12, pady=8)
+        self._user_combo = ttk.Combobox(body, textvariable=self._user_var,
+                                        width=24, state='readonly')
+        self._user_combo.grid(row=0, column=1, padx=12, pady=8)
 
         ttk.Button(body, text='Set User', command=self._set_user).grid(
             row=0, column=2, padx=4)
@@ -34,6 +35,7 @@ class SettingsView(BaseView):
         self._league_combo = ttk.Combobox(body, textvariable=self._league_var,
                                           width=24, state='readonly')
         self._league_combo.grid(row=1, column=1, padx=12, pady=8)
+        self._league_combo.bind('<<ComboboxSelected>>', self._on_league_selected)
 
         ttk.Button(body, text='Set League', command=self._set_league).grid(
             row=1, column=2, padx=4)
@@ -49,7 +51,6 @@ class SettingsView(BaseView):
         if not self.sleeper.db.initialized:
             return
         try:
-            self._user_var.set(self.sleeper.default_user or '')
             leagues = self.sleeper.db.user_leagues
             self._league_map = {
                 l.get('name', l['league_id']): l['league_id']
@@ -61,8 +62,26 @@ class SettingsView(BaseView):
                 if lid == current_id:
                     self._league_var.set(name)
                     break
+            self._user_var.set(self.sleeper.default_user or '')
+            self._on_league_selected()
         except Exception as exc:
             self._status_var.set(f'Error loading settings: {exc}')
+
+    def _on_league_selected(self, _event=None):
+        league_name = self._league_var.get()
+        league_id = self._league_map.get(league_name)
+        if not league_id:
+            return
+        try:
+            users = self.sleeper.db.get_league_users(league_id)
+            names = [u.get('display_name', u['user_id']) for u in users]
+            self._user_combo['values'] = names
+            current = self._user_var.get()
+            if current not in names:
+                default = self.sleeper.default_user or ''
+                self._user_var.set(default if default in names else (names[0] if names else ''))
+        except Exception as exc:
+            self._status_var.set(f'Error loading users: {exc}')
 
     # ── actions ───────────────────────────────────────────────────────────
 
