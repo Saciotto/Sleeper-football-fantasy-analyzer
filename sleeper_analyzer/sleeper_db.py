@@ -54,12 +54,19 @@ class SleeperDatabase:
     @property
     def current_week(self):
         self._ensure_initialized()
-        return int(self.nfl_state['week'])
+        week = int(self.nfl_state['week'])
+        if week == 0:
+            return 1
+        return week
 
     @property
     def current_season(self):
         self._ensure_initialized()
-        return int(self.nfl_state['season'])
+        week = int(self.nfl_state['week'])
+        if week == 0:
+            return int(self.nfl_state['previous_season'])
+        else:
+            return int(self.nfl_state['season'])
 
     @property
     def username(self):

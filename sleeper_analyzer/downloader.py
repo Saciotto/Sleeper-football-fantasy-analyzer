@@ -118,6 +118,9 @@ def download_statistics(username, destination=files.SLEEPER_HOME):
 
     user_id = user['user_id']
     year = nfl_state['season']
+    week = nfl_state['week']
+    if (week == 0):
+        year = nfl_state['previous_season']
 
     leagues = download_user_leagues(user_leagues_file, user_id, year)
     for league in leagues:
