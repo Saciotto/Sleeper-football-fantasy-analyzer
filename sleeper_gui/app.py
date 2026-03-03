@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+from sleeper_gui.views.follow_view import FollowView
 from sleeper_gui.views.init_view import InitView
 from sleeper_gui.views.league_players_view import LeaguePlayersView
 from sleeper_gui.views.leagues_view import LeaguesView
@@ -23,6 +24,7 @@ _CONTENT_BG = '#f4f6f9'   # main content area
 _NAV = [
     ('Initialize',     'init',           True),
     ('Update Data',    'update',         True),
+    ('Follow',         'follow',         True),
     ('Settings',       'settings',       True),
     None,
     ('Team',           'team',           True),
@@ -37,6 +39,7 @@ _NAV = [
 _VIEW_CLASSES = {
     'init':           InitView,
     'update':         UpdateView,
+    'follow':         FollowView,
     'settings':       SettingsView,
     'team':           TeamView,
     'lineup':         LineupView,

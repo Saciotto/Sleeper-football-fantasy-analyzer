@@ -45,6 +45,32 @@ def _best_projected_lineup(sleeper, args):
     print(team.best_projected_lineup())
 
 
+def _follow(sleeper, args):
+    if args.username in sleeper.followed_users:
+        print(f'Already following {args.username}')
+        return
+    print(f'Downloading data for {args.username}...')
+    sleeper.follow(args.username)
+    print(f'Now following {args.username}')
+
+
+def _unfollow(sleeper, args):
+    if args.username not in sleeper.followed_users:
+        print(f'Not following {args.username}')
+        return
+    sleeper.unfollow(args.username)
+    print(f'Unfollowed {args.username}')
+
+
+def _following(sleeper, _):
+    followed = sleeper.followed_users
+    if not followed:
+        print('Not following any users')
+    else:
+        for username in followed:
+            print(username)
+
+
 def _set_user(sleeper, args):
     sleeper.default_user = args.user
 
@@ -82,6 +108,17 @@ def main(sleeper):
     sub_parser.add_argument("-u", "--user", nargs="?", default=None)
     sub_parser.add_argument("-l", "--league", nargs="?", default=None)
     sub_parser.set_defaults(func=_best_projected_lineup)
+
+    sub_parser = subparsers.add_parser('follow', help='Follow a user and download their data')
+    sub_parser.add_argument('username')
+    sub_parser.set_defaults(func=_follow)
+
+    sub_parser = subparsers.add_parser('unfollow', help='Unfollow a user')
+    sub_parser.add_argument('username')
+    sub_parser.set_defaults(func=_unfollow)
+
+    sub_parser = subparsers.add_parser('following', help='List followed users')
+    sub_parser.set_defaults(func=_following)
 
     sub_parser = subparsers.add_parser('set_user', help='Set the default user')
     sub_parser.add_argument("user")

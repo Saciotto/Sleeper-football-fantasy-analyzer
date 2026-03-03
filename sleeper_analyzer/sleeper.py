@@ -53,8 +53,33 @@ class Sleeper:
         self.config['default_user'] = value
         self.config.save()
 
+    @property
+    def followed_users(self):
+        return list(self.config.get('followed_users', []))
+
+    def follow(self, username):
+        """Add username to the followed list and download their league data."""
+        from sleeper_analyzer import downloader
+        followed = self.followed_users
+        if username not in followed:
+            followed.append(username)
+            self.config['followed_users'] = followed
+            self.config.save()
+        downloader.download_followed_user(username, self.db.path)
+
+    def unfollow(self, username):
+        """Remove username from the followed list."""
+        followed = self.followed_users
+        if username in followed:
+            followed.remove(username)
+            self.config['followed_users'] = followed
+            self.config.save()
+
     def download(self, username):
         self.db.download(username)
+        for followed in self.followed_users:
+            from sleeper_analyzer import downloader
+            downloader.download_followed_user(followed, self.db.path)
         self.config['last_download'] = datetime.now().isoformat()
         self.config.save()
 

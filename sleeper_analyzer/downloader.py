@@ -101,6 +101,32 @@ def download_rosters_statistics(user_folder, rosters_folder, users, rosters, yea
                 json.dump(players, fp)
 
 
+def download_followed_user(username, destination):
+    """Download league and roster data for a followed (non-primary) user.
+
+    Requires that the primary user's data has already been downloaded so that
+    the NFL state file is present on disk.
+    """
+    destination = Path(destination)
+    leagues_folder = destination / files.PATH_LEAGUES_FOLDER
+    players_folder = destination / files.PATH_PLAYERS_FOLDER
+
+    nfl_state = utils.load_json_file(destination / files.PATH_NFL_STATE_FILE)
+    week = int(nfl_state['week'])
+    year = nfl_state['previous_season'] if week == 0 else nfl_state['season']
+
+    api = SleeperAPI()
+    user = api.get_user(username)
+    user_id = user['user_id']
+    leagues = api.get_all_leagues_for_user(user_id, year)
+
+    for league in leagues:
+        league_id = league['league_id']
+        folder = leagues_folder / league_id
+        users, rosters = download_league(folder, league_id)
+        download_rosters_statistics(folder, players_folder, users, rosters, year)
+
+
 def download_statistics(username, destination=files.SLEEPER_HOME):
     destination = Path(destination)
 
