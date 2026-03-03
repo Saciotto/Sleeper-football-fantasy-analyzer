@@ -2,10 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 
 from sleeper_gui.views.init_view import InitView
+from sleeper_gui.views.league_players_view import LeaguePlayersView
+from sleeper_gui.views.leagues_view import LeaguesView
 from sleeper_gui.views.lineup_view import LineupView
+from sleeper_gui.views.players_view import PlayersView
 from sleeper_gui.views.settings_view import SettingsView
 from sleeper_gui.views.team_view import TeamView
 from sleeper_gui.views.update_view import UpdateView
+from sleeper_gui.views.users_view import UsersView
 
 # ── Sidebar colour palette ────────────────────────────────────────────────────
 _SB_BG = '#1e2a3a'        # sidebar background
@@ -24,18 +28,22 @@ _NAV = [
     ('Team',           'team',           True),
     ('Lineup',         'lineup',         True),
     None,
-    ('Leagues',        'leagues',        False),
-    ('Players',        'players',        False),
-    ('Users',          'users',          False),
-    ('League Players', 'league_players', False),
+    ('Leagues',        'leagues',        True),
+    ('Players',        'players',        True),
+    ('Users',          'users',          True),
+    ('League Players', 'league_players', True),
 ]
 
 _VIEW_CLASSES = {
-    'init':     InitView,
-    'update':   UpdateView,
-    'settings': SettingsView,
-    'team':     TeamView,
-    'lineup':   LineupView,
+    'init':           InitView,
+    'update':         UpdateView,
+    'settings':       SettingsView,
+    'team':           TeamView,
+    'lineup':         LineupView,
+    'leagues':        LeaguesView,
+    'players':        PlayersView,
+    'users':          UsersView,
+    'league_players': LeaguePlayersView,
 }
 
 
