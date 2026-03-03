@@ -18,7 +18,7 @@ def find_version(*file_paths):
 setup(
     name='sleeper',
     version=find_version('sleeper_analyzer', '__init__.py'),
-    packages=find_packages(include=['sleeper_analyzer', 'sleeper_analyzer.*', 'sleeper_cli', 'sleeper_cli.*']),
+    packages=find_packages(include=['sleeper_analyzer', 'sleeper_analyzer.*', 'sleeper_cli', 'sleeper_cli.*', 'sleeper_gui', 'sleeper_gui.*']),
     url='https://github.com/Saciotto/Sleeper-football-fantasy-analyzer',
     license='MIT',
     author='Matheus Rossi Saciotto',
@@ -27,6 +27,7 @@ setup(
     entry_points={
         'console_scripts': [
             'sleeper = sleeper_cli.__main__:console_entry',
+            'sleeper-gui = sleeper_gui.__main__:console_entry',
         ]
     }
 )
