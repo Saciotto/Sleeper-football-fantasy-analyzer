@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from sleeper_gui.views.follow_view import FollowView
+from sleeper_gui.views.prospects_view import ProspectsView
 from sleeper_gui.views.init_view import InitView
 from sleeper_gui.views.league_players_view import LeaguePlayersView
 from sleeper_gui.views.leagues_view import LeaguesView
@@ -29,6 +30,7 @@ _NAV = [
     None,
     ('Team',           'team',           True),
     ('Lineup',         'lineup',         True),
+    ('Prospects',      'prospects',      True),
     None,
     ('Leagues',        'leagues',        True),
     ('Players',        'players',        True),
@@ -43,6 +45,7 @@ _VIEW_CLASSES = {
     'settings':       SettingsView,
     'team':           TeamView,
     'lineup':         LineupView,
+    'prospects':      ProspectsView,
     'leagues':        LeaguesView,
     'players':        PlayersView,
     'users':          UsersView,

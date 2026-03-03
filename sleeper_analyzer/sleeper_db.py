@@ -41,6 +41,17 @@ class SleeperDatabase:
         return self._user_leagues
 
     @property
+    def all_leagues(self):
+        """All downloaded leagues (primary user + followed users)."""
+        self._ensure_initialized()
+        for league_folder in self.leagues_path.iterdir():
+            if league_folder.is_dir():
+                info_path = league_folder / files.PATH_INFO_FILE
+                if info_path.exists():
+                    with info_path.open() as fp:
+                        yield json.load(fp)
+
+    @property
     def users(self):
         self._ensure_initialized()
         added_users = set()

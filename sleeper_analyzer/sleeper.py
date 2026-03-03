@@ -83,6 +83,73 @@ class Sleeper:
         self.config['last_download'] = datetime.now().isoformat()
         self.config.save()
 
+    def get_prospects(self, league, week=None):
+        """Find the top 5 prospects per role for the given league.
+
+        Prospects are players present in other downloaded leagues but absent
+        from the target league, ranked by projected score.
+
+        Returns a dict mapping role -> list of (Player, score) tuples.
+        """
+        if isinstance(league, str):
+            league = League(self.db, league)
+        if week is None:
+            week = self.db.current_week
+
+        # Active roster positions, deduplicated (skip bench/IR/TAXI slots)
+        bench_slots = {'BN', 'IR', 'TAXI'}
+        seen_roles = set()
+        unique_roles = []
+        for role in league.roster_positions:
+            if role not in bench_slots and role not in seen_roles:
+                seen_roles.add(role)
+                unique_roles.append(role)
+
+        # Player IDs already rostered in the target league
+        owned_ids = set()
+        for roster in league.rosters:
+            owned_ids.update(roster.get('players') or [])
+
+        # Player IDs from every other downloaded league (the prospect pool)
+        prospect_ids = set()
+        for league_info in self.db.all_leagues:
+            if league_info['league_id'] == league.id:
+                continue
+            for roster in self.db.get_league_rosters(league_info):
+                prospect_ids.update(roster.get('players') or [])
+        prospect_ids -= owned_ids
+
+        # Positions eligible for each FLEX-type slot
+        flex_eligible = {
+            'FLEX':       {'RB', 'WR', 'TE'},
+            'SUPER_FLEX': {'QB', 'RB', 'WR', 'TE'},
+            'IDP_FLEX':   {'LB', 'DB', 'DL'},
+        }
+
+        # Score every prospect using the league's scoring settings
+        scored = []
+        for player_id in prospect_ids:
+            try:
+                player = Player(self.db, player_id)
+                score = league.player_score(player, week, stats_mode='projections')
+                if score > 0:
+                    scored.append((player, score))
+            except Exception:
+                continue
+        scored.sort(key=lambda x: x[1], reverse=True)
+
+        # Top 5 per role
+        results = {}
+        for role in unique_roles:
+            eligible = flex_eligible.get(role, {role})
+            top = [
+                (p, s) for p, s in scored
+                if set(p.fantasy_positions) & eligible
+            ][:5]
+            if top:
+                results[role] = top
+        return results
+
     def get_player(self, player_id):
         return Player(self.db, player_id)
 
